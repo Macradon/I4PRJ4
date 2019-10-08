@@ -10,7 +10,7 @@ namespace ChessBotAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "Adminstrator")]
     public class ValuesController : ControllerBase
     {
         [HttpGet]

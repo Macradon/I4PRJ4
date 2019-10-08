@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using System.Security.Claims;
 
 namespace ChessBotAPI.Controllers
 {
@@ -27,12 +28,19 @@ namespace ChessBotAPI.Controllers
             //signing credentials
             var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
 
+            //add claims
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Role, "Adminstrator"));
+            claims.Add(new Claim("our_custom_claim", "our custom value"));
+            claims.Add(new Claim(ClaimTypes.Role, "User"));
+
             //create token
             var token = new JwtSecurityToken(
                 issuer: "smesk.in",
                 audience: "readers",
                 expires: DateTime.Now.AddHours(1),
-                signingCredentials: signingCredentials
+                signingCredentials: signingCredentials,
+                claims: claims
             );
 
             //return token
