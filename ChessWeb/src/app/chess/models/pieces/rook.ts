@@ -8,8 +8,9 @@ export class Rook implements ChessPiece {
   position: BoardPosition;
   player: PlayerColor;
 
-  constructor(player: PlayerColor) {
+  constructor(player: PlayerColor, position: BoardPosition) {
     this.player = player;
+    this.position = position;
   }
 
   getAvailableMoves(boardState: BoardTile[][]): BoardTile[] {
