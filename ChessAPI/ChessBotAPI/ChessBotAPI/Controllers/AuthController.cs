@@ -30,9 +30,19 @@ namespace ChessBotAPI.Controllers
 
             //add claims
             var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.Role, "Adminstrator"));
-            claims.Add(new Claim("our_custom_claim", "our custom value"));
-            claims.Add(new Claim(ClaimTypes.Role, "User"));
+
+            switch (value)
+            {
+                case 1:
+                    claims.Add(new Claim(ClaimTypes.Role, "User"));
+                    break;
+                case 2:
+                    claims.Add(new Claim(ClaimTypes.Role, "Adminstrator"));
+                    break;
+                default:
+                    claims.Add(new Claim(ClaimTypes.Role, "User"));
+                    break;
+            }
 
             //create token
             var token = new JwtSecurityToken(
@@ -49,8 +59,9 @@ namespace ChessBotAPI.Controllers
 
         [HttpPost]
         [Route("tokenRefresh")]
-        public ActionResult refreshToken()
+        public ActionResult refreshToken(int value)
         {
+
 
             return Ok("Hello");
         }
