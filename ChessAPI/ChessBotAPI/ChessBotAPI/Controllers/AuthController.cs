@@ -17,7 +17,7 @@ namespace ChessBotAPI.Controllers
     {
         [HttpPost]
         [Route("token")]
-        public ActionResult GetToken()
+        public ActionResult GetToken(int value)
         {
             //security key
             string securityKey = "one_security_key_to_validate_them_all_project_2019$smesk.in";
@@ -45,6 +45,14 @@ namespace ChessBotAPI.Controllers
 
             //return token
             return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+        }
+
+        [HttpPost]
+        [Route("tokenRefresh")]
+        public ActionResult refreshToken()
+        {
+
+            return Ok("Hello");
         }
     }
 }
