@@ -1,6 +1,7 @@
 import { ChessPiece, PlayerColor } from "../chess-piece";
 import { BoardPosition } from "../board-position";
 import { BoardTile } from "../board-tile";
+import { availableMovesInDirection, Direction } from "../utils";
 
 export class Rook implements ChessPiece {
   pictureURL: string;
@@ -11,7 +12,22 @@ export class Rook implements ChessPiece {
     this.player = player;
   }
 
-  getAvailableMoves(boardState: BoardTile[][]): BoardPosition[] {
-    throw new Error("Method not implemented.");
+  getAvailableMoves(boardState: BoardTile[][]): BoardTile[] {
+    const result: BoardTile[] = [];
+
+    result.concat(
+      availableMovesInDirection(this.position, Direction.NORTH, boardState)
+    );
+    result.concat(
+      availableMovesInDirection(this.position, Direction.EAST, boardState)
+    );
+    result.concat(
+      availableMovesInDirection(this.position, Direction.SOUTH, boardState)
+    );
+    result.concat(
+      availableMovesInDirection(this.position, Direction.WEST, boardState)
+    );
+
+    return result;
   }
 }
