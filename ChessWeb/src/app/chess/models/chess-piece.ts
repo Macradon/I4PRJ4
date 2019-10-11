@@ -1,4 +1,5 @@
-import { BoardPosition } from './board-position';
+import { BoardPosition } from "./board-position";
+import { BoardTile } from "./board-tile";
 
 export enum PlayerColor {
   White,
@@ -7,8 +8,7 @@ export enum PlayerColor {
 
 export interface ChessPiece {
   player: PlayerColor;
-  position: BoardPosition;
   pictureURL: string;
 
-  getAvailableMoves(boardState: ChessPiece[][]): BoardPosition[];
+  getAvailableMoves(boardState: BoardTile[][]): BoardPosition[];
 }
