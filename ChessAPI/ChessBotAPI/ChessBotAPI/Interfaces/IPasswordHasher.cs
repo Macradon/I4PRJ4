@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ChessBotAPI.Models
+namespace ChessBotAPI.Interfaces
 {
-    public class DataContext
+    interface IPasswordHasher
     {
     }
 }
