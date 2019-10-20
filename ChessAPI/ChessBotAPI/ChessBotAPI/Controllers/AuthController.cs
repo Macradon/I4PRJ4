@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using System.Security.Claims;
-using System.Security.Cryptography;
+﻿using Microsoft.AspNetCore.Mvc;
+using ChessBotAPI.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using ChessBotAPI.Models;
 
 namespace ChessBotAPI.Controllers
 {
@@ -16,22 +9,33 @@ namespace ChessBotAPI.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        [HttpPost]
-        [Route("register")]
-        public Task<IActionResult> Register(string username, string password, 
-                                            string firstname, string lastname)
-        {
+        private IUserService _userService;
 
+        public AuthController(IUserService userService)
+        {
+            _userService = userService;
         }
 
-        [HttpPost]
-        [Route("login")]
-        public Task<IActionResult> Login(string username, string password)
+        [HttpGet("account")]
+        public IActionResult Get([FromBody] Register request)
+        => Content($"Hello {User.Identity.Name}");
+
+        [HttpPost("sign-in")]
+        [AllowAnonymous]
+        public IActionResult SignIn([FromBody] SignIn request)
+            => Ok(_userService.LogIn(request.Username, request.Password));
+
+        [HttpPost("tokens/{token}/refresh")]
+        [AllowAnonymous]
+        public IActionResult RefreshAccessToken(string token)
+        => Ok(_userService.RefreshAccessToken(token));
+
+        [HttpPost("tokens/{token}/revoke")]
+        public IActionResult RevokeRefreshToken(string token)
         {
+            _userService.RevokeRefreshToken(token);
 
-            return new ObjectResult();
+            return NoContent();
         }
-
-        
     }
 }

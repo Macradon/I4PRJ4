@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using ChessBotAPI.Interfaces;
 using ChessBotAPI.Models;
-using Microsoft.Extensions.Options;
 
 namespace ChessBotAPI.Services
 {
     public class JWTHandler : IJWTHandler
     {
-        private JwtSecurityTokenHandler _jwtSecurityTokenHandler;
+        private JwtSecurityTokenHandler _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
         private SecurityKey _securityKey;
         private SigningCredentials _signingCredentials;
         private JwtHeader _jwtHeader;

@@ -16,6 +16,7 @@ namespace ChessBotAPI.Controllers
     [ApiController]
     public class TokenController : ControllerBase
     {
+        /*
         [HttpPost]
         [Route("token")]
         public ActionResult GetToken(IEnumerable<Claim> claim, int value)
@@ -135,5 +136,6 @@ namespace ChessBotAPI.Controllers
                 refreshToken = newRefreshToken
             });
         }
+        */
     }
 }
