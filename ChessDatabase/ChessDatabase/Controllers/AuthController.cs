@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using ChessDatabase.Data;
 using ChessDatabase.Models;
 
 namespace ChessDatabase.Controllers
