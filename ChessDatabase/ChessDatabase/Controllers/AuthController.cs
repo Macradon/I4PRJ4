@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using ChessDatabase.Data;
+using ChessDatabase.Models;
 
 namespace ChessDatabase.Controllers
 {
@@ -15,6 +18,14 @@ namespace ChessDatabase.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+
+        [HttpPost("LogIn")]
+        public ActionResult Login(string username, string password)
+        {
+
+            return Ok("Hello there");
+        }
+
         [HttpPost("token")]
         public ActionResult GetToken(string username, string password)
         {
@@ -53,6 +64,16 @@ namespace ChessDatabase.Controllers
 
             //return token
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create()) {
+                rng.GetBytes(randomNumber);
+
+                return Convert.ToBase64String(randomNumber);
+            }
         }
 
         [HttpPost("refresh")]
