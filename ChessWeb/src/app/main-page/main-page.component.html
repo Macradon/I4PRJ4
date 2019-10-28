@@ -1,0 +1,29 @@
+<!-- Toolbar -->
+<div class="toolbar" role="banner">
+    <img width="5" >
+    <span>Welcome </span>
+    <div class="spacer"></div>
+    <span>Log out</span>
+</div>
+
+
+<div class = "body-container">
+  <div class="card-container" >
+    <div class="card" (click)="selection.value = 'component'" tabindex="0">
+            <img src = 'assets/img/continue.png' width = "50" height = "50">
+      <span>Continue game</span>
+    </div>
+
+    <div class="card" (click)="selection.value = 'material'" tabindex="0">
+            <img src = 'assets/img/new.png' width = "50" height = "50">
+      <span>New game</span>
+    </div>
+
+    <div class="card" (click)="selection.value = 'material'" tabindex="0">
+        <a  [routerLink] = "['/highscores']">
+            <img src = 'assets/img/highscores.png' width = "50" height = "50">
+            <span>High scores</span></a>
+        </div>
+  </div>    
+</div>
+
