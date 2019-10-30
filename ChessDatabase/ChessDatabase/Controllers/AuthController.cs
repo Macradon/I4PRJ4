@@ -57,7 +57,7 @@ namespace ChessDatabase.Controllers
                 issuer: "chess",
                 audience: "player",
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(10),
+                expires: DateTime.Now.AddHours(30),
                 signingCredentials: signingCredentials
                 );
 
