@@ -7,6 +7,12 @@ export class King implements ChessPiece {
   playerColor: PlayerColor;
   position: BoardPosition;
   pictureURL: string;
+
+  constructor(player: PlayerColor, position: BoardPosition) {
+    this.playerColor = player;
+    this.position = position;
+  }
+
   getAvailableMoves(boardState: BoardTile[][]): BoardTile[] {
     const possibleMoves: BoardTile[] = [];
 
