@@ -4,12 +4,12 @@ import { BoardTile } from "../board-tile";
 import { availableMovesInDirection, Direction } from "../utils";
 
 export class Bishop implements ChessPiece {
-  player: PlayerColor;
+  playerColor: PlayerColor;
   position: BoardPosition;
   pictureURL: string;
 
   constructor(player: PlayerColor, position: BoardPosition) {
-    this.player = player;
+    this.playerColor = player;
     this.position = position;
   }
 

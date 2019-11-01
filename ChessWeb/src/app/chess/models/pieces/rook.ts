@@ -6,10 +6,10 @@ import { availableMovesInDirection, Direction } from "../utils";
 export class Rook implements ChessPiece {
   pictureURL: string;
   position: BoardPosition;
-  player: PlayerColor;
+  playerColor: PlayerColor;
 
   constructor(player: PlayerColor, position: BoardPosition) {
-    this.player = player;
+    this.playerColor = player;
     this.position = position;
   }
 

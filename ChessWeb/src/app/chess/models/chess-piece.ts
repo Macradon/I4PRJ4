@@ -7,7 +7,7 @@ export enum PlayerColor {
 }
 
 export interface ChessPiece {
-  player: PlayerColor;
+  playerColor: PlayerColor;
   position: BoardPosition;
   pictureURL: string;
 
