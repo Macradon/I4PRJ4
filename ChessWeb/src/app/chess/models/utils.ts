@@ -15,12 +15,22 @@ export enum Direction {
   NORTHWEST
 }
 
+export function filterPossibleMoves(
+  color: PlayerColor,
+  posMoves: BoardTile[]
+): BoardTile[] {
+  return posMoves.filter(
+    tile => !tile.piece || tile.piece.playerColor != color
+  );
+}
+
 export function availableMovesInDirection(
   position: BoardPosition,
   direction: Direction,
   boardState: BoardTile[][]
 ) {
-  const player: PlayerColor = boardState[position.x][position.y].piece.player;
+  const player: PlayerColor =
+    boardState[position.x][position.y].piece.playerColor;
   const result: BoardTile[] = [];
 
   switch (direction) {
@@ -28,7 +38,7 @@ export function availableMovesInDirection(
       for (let i: number = 1; i < BOARD_SIZE - position.y; i++) {
         const tile: BoardTile = boardState[position.x][position.y + i];
         if (tile.piece) {
-          if (tile.piece.player == player) {
+          if (tile.piece.playerColor == player) {
             break;
           } else {
             result.push(tile);
@@ -45,7 +55,7 @@ export function availableMovesInDirection(
       for (let i: number = 1; i < BOARD_SIZE - highestPos; i++) {
         const tile: BoardTile = boardState[position.x + i][position.y + i];
         if (tile.piece) {
-          if (tile.piece.player == player) {
+          if (tile.piece.playerColor == player) {
             break;
           } else {
             result.push(tile);
@@ -61,7 +71,7 @@ export function availableMovesInDirection(
       for (let i: number = 1; i < BOARD_SIZE - position.x; i++) {
         const tile: BoardTile = boardState[position.x + i][position.y];
         if (tile.piece) {
-          if (tile.piece.player == player) {
+          if (tile.piece.playerColor == player) {
             break;
           } else {
             result.push(tile);
@@ -78,7 +88,7 @@ export function availableMovesInDirection(
       for (let i: number = 1; i < BOARD_SIZE - highestPos; i++) {
         const tile: BoardTile = boardState[position.x + i][position.y - i];
         if (tile.piece) {
-          if (tile.piece.player == player) {
+          if (tile.piece.playerColor == player) {
             break;
           } else {
             result.push(tile);
@@ -94,7 +104,7 @@ export function availableMovesInDirection(
       for (let i: number = 1; i < BOARD_SIZE - position.y; i++) {
         const tile: BoardTile = boardState[position.x][position.y - i];
         if (tile.piece) {
-          if (tile.piece.player == player) {
+          if (tile.piece.playerColor == player) {
             break;
           } else {
             result.push(tile);
@@ -111,7 +121,7 @@ export function availableMovesInDirection(
       for (let i: number = 1; i < BOARD_SIZE - highestPos; i++) {
         const tile: BoardTile = boardState[position.x - i][position.y - i];
         if (tile.piece) {
-          if (tile.piece.player == player) {
+          if (tile.piece.playerColor == player) {
             break;
           } else {
             result.push(tile);
@@ -127,7 +137,7 @@ export function availableMovesInDirection(
       for (let i: number = 1; i < BOARD_SIZE - position.y; i++) {
         const tile: BoardTile = boardState[position.x - i][position.y];
         if (tile.piece) {
-          if (tile.piece.player == player) {
+          if (tile.piece.playerColor == player) {
             break;
           } else {
             result.push(tile);
@@ -144,7 +154,7 @@ export function availableMovesInDirection(
       for (let i: number = 1; i < BOARD_SIZE - highestPos; i++) {
         const tile: BoardTile = boardState[position.x - i][position.y + i];
         if (tile.piece) {
-          if (tile.piece.player == player) {
+          if (tile.piece.playerColor == player) {
             break;
           } else {
             result.push(tile);
