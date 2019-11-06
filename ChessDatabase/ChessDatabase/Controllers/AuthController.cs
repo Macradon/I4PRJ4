@@ -29,7 +29,15 @@ namespace ChessDatabase.Controllers
         public ActionResult GetToken(string username, string password)
         {
             if (IsValidCombination(username, password))
-                return new ObjectResult(GenerateToken(username));
+            {
+                var token = new JsonWebToken();
+                token.token = GenerateToken(username);
+                token.refreshToken = "hest";
+                return Ok(token);
+            }
+
+                
+                //return new ObjectResult(GenerateToken(username));
             return BadRequest();
         }
 
