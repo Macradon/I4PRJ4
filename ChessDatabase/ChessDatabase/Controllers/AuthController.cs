@@ -31,8 +31,10 @@ namespace ChessDatabase.Controllers
             if (IsValidCombination(username, password))
             {
                 var token = new JsonWebToken();
+                var rToken = new RefreshToken();
                 token.token = GenerateToken(username);
-                token.refreshToken = "hest";
+                rToken.refreshToken = GenerateRefreshToken();
+                token.refreshToken = rToken;
                 return Ok(token);
             }
 
@@ -86,7 +88,17 @@ namespace ChessDatabase.Controllers
         [HttpPost("refresh")]
         public ActionResult RefreshToken()
         {
+
+
+
             return Ok("Hello there");
+        }
+
+        public bool IsValidRefreshToken()
+        {
+
+
+            return false;
         }
     }
 }
