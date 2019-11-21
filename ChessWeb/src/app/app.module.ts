@@ -1,10 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import {MatMenuModule} from '@angular/material/menu';
 
 import { AppRoutingModule } from './app-routing.module';
 import { routing } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
 import { SignInComponent } from './login/sign-in/sign-in.component';
 import { RegisterComponent } from './login/register/register.component';
 import { ToastComponent } from './toast/toast.component';
@@ -17,7 +22,6 @@ import { MainPageModule } from './main-page/main-page.module';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     SignInComponent,
     RegisterComponent,
     ToastComponent,
@@ -27,7 +31,12 @@ import { MainPageModule } from './main-page/main-page.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

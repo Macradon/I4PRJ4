@@ -1,1 +1,42 @@
-<p>register works!</p>
+<div class="card-container">
+    <div class="card">
+      <form [formGroup]="registerForm" (ngSubmit)="onFormSubmit(registerForm.value)"> 
+        <mat-form-field class="example-full-width">
+          <input matInput type="text" formControlName="username"
+          placeholder="Full name" [errorStateMatcher]="matcher">
+          <mat-error>
+            <span *ngIf="!registerForm.get('username').valid && registerForm.get('username').touched">Please enter your name</span>
+          </mat-error>
+        </mat-form-field>
+        <div></div> 
+        <mat-form-field class="example-full-width">
+          <input matInput type="email" formControlName="email"
+          placeholder="E-mail" [errorStateMatcher]="matcher">
+          <mat-error>
+            <span *ngIf="!registerForm.get('email').valid && registerForm.get('email').touched">Please enter your e-mail address</span>
+          </mat-error>
+        </mat-form-field>
+        <div></div> 
+        <mat-form-field class="example-full-width">
+          <input matInput type="password" formControlName="password"
+          placeholder="Password" [errorStateMatcher]="matcher">
+          <mat-error>
+            <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched">Please enter your password</span>
+          </mat-error>
+        </mat-form-field>
+        <div></div> 
+        <mat-form-field class="example-full-width">
+          <input matInput type="password" formControlName="password"
+          placeholder="Repeat password" [errorStateMatcher]="matcher">
+          <mat-error>
+            <!--check if the passwords match-->
+            <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched">Please re-enter your password</span>
+          </mat-error>
+        </mat-form-field>
+        <div class="button-row">
+          <button type="submit" [disabled]="!registerForm.valid" mat-flat-button color="primary">Register</button>
+        </div>
+      </form>
+    </div>
+</div>
+  
