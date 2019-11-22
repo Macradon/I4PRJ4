@@ -17,7 +17,7 @@ namespace ChessDatabase.Services
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _refreshTokens = database.GetCollection<RefreshToken>(settings.RefreshTokenCollectionName);
+            _refreshTokens = database.GetCollection<RefreshToken>(settings.RefreshTokensCollectionName);
         }
 
         public List<RefreshToken> Get() =>
@@ -37,10 +37,14 @@ namespace ChessDatabase.Services
 
         public void Remove(RefreshToken tokenIn)
         {
-            var revokeToken = 
+            var revokeToken = tokenIn;
+            revokeToken.revoked = true;
         }
 
-        public void Remove(string id) =>
-            _refreshTokens.DeleteOne(refreshToken => refreshToken.Id == id);
+        public void Remove(string id)
+        {
+            var revokeToken = _refreshTokens.Find<RefreshToken>(refreshToken => refreshToken.Id == id).FirstOrDefault();
+            revokeToken.revoked = true;
+        }
     }
 }

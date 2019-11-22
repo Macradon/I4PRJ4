@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ChessDatabase.Models;
+using ChessDatabase.Services;
 
 namespace ChessDatabase.Controllers
 {
@@ -17,14 +18,72 @@ namespace ChessDatabase.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly TokenService _tokenService;
+        private readonly UserService _userService;
+
+        public AuthController(TokenService tokenService, UserService userService)
+        {
+            _tokenService = tokenService;
+            _userService = userService;
+        }
+
+        [HttpPost("register")]
+        public ActionResult Register(string username, string password, string firstName, string lastName)
+        {
+            User newUserRegistration = new User();
+            newUserRegistration.firstName = firstName;
+            newUserRegistration.lastName = lastName;
+            newUserRegistration.Username = username;
+            newUserRegistration.password = password;
+
+            return Ok("General Kenobi!");
+        }
 
         [HttpPost("LogIn")]
         public ActionResult Login(string username, string password)
         {
-
-            return Ok("Hello there");
+            if (IsExistingUsername(username))
+            {
+                if (IsCorrectPassword(username, password))
+                {
+                    var token = new JsonWebToken();
+                    var rToken = new RefreshToken();
+                    token.token = GenerateToken(username);
+                    rToken.refreshToken = GenerateRefreshToken();
+                    _tokenService.Create(rToken);
+                    token.refreshToken = rToken;
+                    return Ok(token);
+                }
+                else { return BadRequest(); }
+            }
+            else { return BadRequest(); }
         }
 
+        private bool IsExistingUsername(string username)
+        {
+            if (username != _userService.Get(username).Username)
+            {
+                return false;
+            }else if ( username == _userService.Get(username).Username)
+            {
+                return true;
+            }
+            else { return false; }
+        }
+
+        private bool IsCorrectPassword(string username, string password)
+        {
+            if (password != _userService.Get(username).password)
+            {
+                return false;
+            }else if ( password == _userService.Get(username).password)
+            {
+                return true;
+            }
+            else { return false; }
+        }
+
+        //Endpoint til udvikling så man kan få en token hurtigt uden at man skal logge ind
         [HttpPost("token")]
         public ActionResult GetToken(string username, string password)
         {
@@ -34,6 +93,7 @@ namespace ChessDatabase.Controllers
                 var rToken = new RefreshToken();
                 token.token = GenerateToken(username);
                 rToken.refreshToken = GenerateRefreshToken();
+                _tokenService.Create(rToken);
                 token.refreshToken = rToken;
                 return Ok(token);
             }
@@ -86,19 +146,41 @@ namespace ChessDatabase.Controllers
         }
 
         [HttpPost("refresh")]
-        public ActionResult RefreshToken()
+        public ActionResult RefreshToken(User user)
         {
 
+            RefreshToken checkToken = user.token.refreshToken;
 
+            if (IsValidRefreshToken(checkToken))
+            {
+                JsonWebToken newAccessToken = new JsonWebToken();
+                newAccessToken.token = GenerateToken(user.Username);
+                user.token = newAccessToken;
+                RefreshToken newRefreshToken = new RefreshToken();
+                newRefreshToken.refreshToken = GenerateRefreshToken();
+                user.token.refreshToken = newRefreshToken;
 
-            return Ok("Hello there");
+                return Ok(newAccessToken);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
-        public bool IsValidRefreshToken()
+        private bool IsValidRefreshToken(RefreshToken refreshToken)
         {
-
-
-            return false;
+            if (refreshToken.revoked == true)
+            {
+                return false;
+            }else if (refreshToken != _tokenService.Get(refreshToken.Id))
+            {
+                return false;
+            }else if ( refreshToken == _tokenService.Get(refreshToken.Id))
+            {
+                return true;
+            }
+            else { return false; }
         }
     }
 }
