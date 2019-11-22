@@ -35,6 +35,7 @@ namespace ChessDatabase.Controllers
             newUserRegistration.lastName = lastName;
             newUserRegistration.Username = username;
             newUserRegistration.password = password;
+            _userService.Create(newUserRegistration);
 
             return Ok("General Kenobi!");
         }
