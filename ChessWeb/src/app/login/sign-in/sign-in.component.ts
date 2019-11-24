@@ -21,7 +21,7 @@ export class SignInComponent implements OnInit {
 
   user: User;
   loginForm: FormGroup;
-  email = '';
+  Username = '';
   password = '';
   matcher = new ErrorMatcher();
   isLoadingResults = false;
@@ -29,7 +29,7 @@ export class SignInComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      'email' : [null, Validators.required],
+      'Username' : [null, Validators.required],
       'password' : [null, Validators.required]
     });
   }
@@ -44,7 +44,7 @@ export class SignInComponent implements OnInit {
     .subscribe(res => {
       if (res.token) {
         localStorage.setItem('token', res.token);
-        localStorage.setItem('user', res.user.username);
+        localStorage.setItem('user', res.user.firstName);
         this.router.navigate(['programs']);
         //this.service.user = res.user;
       }

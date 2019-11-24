@@ -2,10 +2,10 @@
     <div class="card">
         <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit(loginForm.value)">
             <mat-form-field class="example-full-width">
-                <input matInput type="email" formControlName="email"
+                <input matInput type="email" formControlName="Username"
                 placeholder="E-mail" [errorStateMatcher]="matcher">
                 <mat-error>
-                <span *ngIf="!loginForm.get('email').valid && loginForm.get('email').touched">Please enter your e-mail address</span>
+                <span *ngIf="!loginForm.get('Username').valid && loginForm.get('Username').touched">Please enter your e-mail address</span>
                 </mat-error>
             </mat-form-field>
             <div></div>

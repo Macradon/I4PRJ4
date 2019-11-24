@@ -15,7 +15,7 @@
 </style>
 <div class="toolbar" role="banner">
   <img width="5" >
-  <button mat-button  [matMenuTriggerFor]="belowMenu">What do you feel like ?</button>
+  <button mat-button *ngIf="loginStatus === true" [matMenuTriggerFor]="belowMenu">What do you feel like {{this.username}}?</button>
   <mat-menu #belowMenu="matMenu" yPosition="below">  
     <button mat-menu-item><a routerLink="game/:id"  class="nav-link" routerLinkActive="active">
       Resume game
@@ -28,8 +28,8 @@
       </a></button>  
   </mat-menu>
   <div class="spacer"></div>
-  <button mat-button (click)="logout()">Sign out</button>
-  <button *ngIf="loginStatus === false"><a routerLink="users/login" class="nav-link" routerLinkActive="active">Sign in</a></button>
+  <button *ngIf="loginStatus === true" mat-button (click)="logout()">Sign out</button>
+  <button *ngIf="loginStatus === false"><a routerLink="login" class="nav-link" routerLinkActive="active">Sign in</a></button>
 </div>
 
 <div class="body-container">

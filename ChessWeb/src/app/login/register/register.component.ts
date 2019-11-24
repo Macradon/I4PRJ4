@@ -19,8 +19,9 @@ export class ErrorMatcher implements ErrorStateMatcher {
 export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
-  username = '';
-  email = '';
+  firstName = '';
+  lastName = '';
+  Username = '';
   password = '';
   isLoadingResults = false;
   matcher = new ErrorStateMatcher();
@@ -29,8 +30,9 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({      
-      username : [null, Validators.required],
-      email : [null, Validators.required],
+      firstName : [null, Validators.required],
+      lastName : [null, Validators.required],
+      Username : [null, Validators.required],
       password : [null, Validators.required]
     });
   }
@@ -38,7 +40,7 @@ export class RegisterComponent implements OnInit {
   onFormSubmit(form: NgForm) {
     this.service.register(form)
       .subscribe(res => {
-        this.router.navigate(['users/login']);
+        this.router.navigate(['login']);
       }, (err) => {
         console.log(err);
         alert(err.error);
