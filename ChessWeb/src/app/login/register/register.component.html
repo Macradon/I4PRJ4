@@ -20,12 +20,12 @@
           <input matInput type="email" formControlName="Username"
           placeholder="E-mail" [errorStateMatcher]="matcher">
           <mat-error>
-            <span *ngIf="!registerForm.get('Username').valid && registerForm.get('Username').touched">Please enter your e-mail address</span>
+            <span *ngIf="!registerForm.get('Username').valid && registerForm.get('Username').touched">Please enter your e-mail</span>
           </mat-error>
         </mat-form-field>
         <div></div> 
         <mat-form-field class="example-full-width">
-          <input matInput type="password" formControlName="password"
+          <input matInput  type="password" formControlName="password"
           placeholder="Password" [errorStateMatcher]="matcher">
           <mat-error>
             <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched">Please enter your password</span>
@@ -33,11 +33,11 @@
         </mat-form-field>
         <div></div> 
         <mat-form-field class="example-full-width">
-          <input matInput type="password" formControlName="password"
-          placeholder="Repeat password" [errorStateMatcher]="matcher">
+          <input matInput type="password" formControlName="confirmPassword"
+          placeholder="Repeat password" [errorStateMatcher]="pwmatcher" (input)="onInput($event.target.value)">
           <mat-error>
-            <!--check if the passwords match-->
-            <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched">Please re-enter your password</span>
+            <span *ngIf="!registerForm.get('confirmPassword').valid && registerForm.get('confirmPassword').touched">Please confirm password</span>
+            <span *ngIf="registerForm.get('confirmPassword').touched && mismatch === true">Passwords don't match</span>
           </mat-error>
         </mat-form-field>
         <div class="button-row">

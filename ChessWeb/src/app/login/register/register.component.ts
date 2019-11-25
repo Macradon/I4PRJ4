@@ -7,7 +7,14 @@ import { LoginService } from '../login.service';
 export class ErrorMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    return (control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
+export class PasswordMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return (control.dirty || control.touched || isSubmitted);
   }
 }
 
@@ -23,17 +30,20 @@ export class RegisterComponent implements OnInit {
   lastName = '';
   Username = '';
   password = '';
+  confirmPassword = '';
+  mismatch: boolean;
   isLoadingResults = false;
-  matcher = new ErrorStateMatcher();
-
+  matcher = new ErrorMatcher();
+  pwmatcher = new PasswordMatcher();
   constructor(private formBuilder: FormBuilder, private router: Router, private service: LoginService) { }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({      
       firstName : [null, Validators.required],
       lastName : [null, Validators.required],
-      Username : [null, Validators.required],
-      password : [null, Validators.required]
+      Username : [null, Validators.required, Validators.email],
+      password : [null, Validators.required, Validators.minLength(8)],
+      confirmPassword: [null, Validators.required]
     });
   }
 
@@ -45,5 +55,12 @@ export class RegisterComponent implements OnInit {
         console.log(err);
         alert(err.error);
     });
+  }
+
+  onInput(value) {
+    if(this.registerForm.get('password').dirty && this.registerForm.get('confirmPassword').dirty){
+      if (this.registerForm.value.password === value || value === '') this.mismatch = false;      
+      else this.mismatch = true; 
+    }    
   }
 }
