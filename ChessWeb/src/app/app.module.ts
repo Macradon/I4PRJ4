@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { routing } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignInComponent } from './login/sign-in/sign-in.component';
+import { ProfileComponent } from './login/profile/profile.component';
 import { RegisterComponent } from './login/register/register.component';
 import { ToastComponent } from './toast/toast.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -26,7 +27,8 @@ import { MainPageModule } from './main-page/main-page.module';
     RegisterComponent,
     ToastComponent,
     MainPageComponent,
-    HighScoresComponent
+    HighScoresComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

@@ -10,7 +10,7 @@ import { tap } from 'rxjs/operators';
 export class LoginService {
 
   //wrong
-  uri = '/users';
+  uri = 'api/auth';
 
   @Output() isLoggedIn: EventEmitter<any> = new EventEmitter();
   loggedInStatus: boolean;
@@ -41,7 +41,6 @@ export class LoginService {
   }
   
   register(data: any): Observable<any> {
-    //wrong
     return this.http.post(`${this.uri}/register`, data)
   }
   

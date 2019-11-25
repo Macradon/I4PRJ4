@@ -6,6 +6,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HighScoresService {
+  
+  uri = '/api/highscores';
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  createHighScore(data) {
+  this.http.post(`${this.uri}`, data)
+    .subscribe(res => console.log('Done'));
+  }
+
+  getHighscores() {
+    return this
+      .http
+      .get(`${this.uri}`);
+  }
 }

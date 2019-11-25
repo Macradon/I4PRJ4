@@ -5,13 +5,15 @@ import { HighScoresComponent } from './high-scores/high-scores.component';
 import { SignInComponent } from './login/sign-in/sign-in.component';
 import { RegisterComponent } from './login/register/register.component';
 import { AuthGuard } from './login/auth.guard';
+import { ProfileComponent } from './login/profile/profile.component';
 
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
-  { path: 'highscores', canActivate: [AuthGuard], component: HighScoresComponent},
+  { path: 'highscores',  component: HighScoresComponent},
   { path: 'login', component: SignInComponent},
-  { path: 'register', component: RegisterComponent}
+  { path: 'register', component: RegisterComponent},
+  { path: 'myprofile', component: ProfileComponent}
   // når login kræves først{ path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
 
