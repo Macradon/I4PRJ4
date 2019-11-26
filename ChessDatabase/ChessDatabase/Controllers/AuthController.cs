@@ -11,11 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ChessDatabase.Models;
 using ChessDatabase.Services;
+using System.Web.Http.Cors;
 
 namespace ChessDatabase.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AuthController : ControllerBase
     {
         private readonly TokenService _tokenService;
@@ -28,35 +31,38 @@ namespace ChessDatabase.Controllers
         }
 
         [HttpPost("register")]
-        public ActionResult Register(string username, string password, string firstName, string lastName)
+        public ActionResult Register(User user)
         {
-            User newUserRegistration = new User();
-            newUserRegistration.firstName = firstName;
-            newUserRegistration.lastName = lastName;
-            newUserRegistration.Username = username;
-            newUserRegistration.password = password;
+            User newUserRegistration = new User()
+            {
+                firstName = user.firstName,
+                lastName = user.lastName,
+                Username = user.Username,
+                password = user.password
+            };
+
             _userService.Create(newUserRegistration);
 
-            return Ok("General Kenobi!");
+            return Ok(newUserRegistration);
         }
 
-        [HttpPost("LogIn")]
-        public ActionResult Login(string username, string password)
+        [HttpPost("login")]
+        public ActionResult Login(User usertest)
         {
-            if (IsExistingUsername(username))
+            if (IsExistingUsername(usertest.Username))
             {
-                User user = _userService.Get(username);
+                User user = _userService.Get(usertest.Username);
 
-                if (IsCorrectPassword(username, password))
+                if (IsCorrectPassword(usertest.Username, usertest.password))
                 {
                     var token = new JsonWebToken();
                     var rToken = new RefreshToken();
-                    token.token = GenerateToken(username);
+                    token.token = GenerateToken(usertest.Username);
                     rToken.refreshToken = GenerateRefreshToken();
                     _tokenService.Create(rToken);
                     token.refreshToken = rToken;
                     user.token = token;
-                    _userService.Update(username, user);
+                    _userService.Update(usertest.Username, user);
                     return Ok(token);
                 }
                 else { return BadRequest(); }

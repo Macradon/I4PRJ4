@@ -41,13 +41,14 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({      
       firstName : [null, Validators.required],
       lastName : [null, Validators.required],
-      Username : [null, Validators.required, Validators.email],
-      password : [null, Validators.required, Validators.minLength(8)],
+      Username : [null, [Validators.required, Validators.email]],
+      password : [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, Validators.required]
     });
   }
 
   onFormSubmit(form: NgForm) {
+    console.log(form)
     this.service.register(form)
       .subscribe(res => {
         this.router.navigate(['login']);

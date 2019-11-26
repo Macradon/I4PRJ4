@@ -9,8 +9,8 @@ import { tap } from 'rxjs/operators';
 })
 export class LoginService {
 
-  //wrong
-  uri = 'api/auth';
+  
+  uri = 'https://localhost:44355/api/auth';
 
   @Output() isLoggedIn: EventEmitter<any> = new EventEmitter();
   loggedInStatus: boolean;
@@ -20,14 +20,13 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   login(data: any): Observable<any> {
-    //wrong
+    console.log(data)
     return this.http.post(`${this.uri}/login`, data)
       .pipe(
         tap(_ => {
           this.isLoggedIn.emit(true);
           this.loggedInStatus = true;
-        }),
-        this.handleError('login', [])
+        })
       );     
   }
 
@@ -41,20 +40,14 @@ export class LoginService {
   }
   
   register(data: any): Observable<any> {
-    return this.http.post(`${this.uri}/register`, data)
+    console.log("service", data)
+    return this.http.post(`${this.uri}/register`, 
+    {
+      Username: data.Username, 
+      password: data.password,
+      firstName: data.firstName,
+      lastName: data.lastName
+    })
   }
-  
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-  
-      console.error(error); // log to console instead
-      this.log(`${operation} failed: ${error.message}`);
-  
-      return of(result as T);
-    };
-  }
-  
-  private log(message: string) {
-    console.log(message);
-  }
+
 }

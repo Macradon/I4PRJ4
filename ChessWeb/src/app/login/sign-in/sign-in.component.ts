@@ -44,8 +44,7 @@ export class SignInComponent implements OnInit {
     .subscribe(res => {
       if (res.token) {
         localStorage.setItem('token', res.token);
-        localStorage.setItem('user', res.user.firstName);
-        this.router.navigate(['programs']);
+       // localStorage.setItem('user', res.user.firstName);
         //this.service.user = res.user;
       }
     }, (err) => {
