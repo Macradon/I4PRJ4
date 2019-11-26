@@ -57,7 +57,7 @@ namespace ChessDatabase.Controllers
                     token.refreshToken = rToken;
                     user.token = token;
                     _userService.Update(username, user);
-                    return Ok(token);
+                    return Ok(user);
                 }
                 else { return BadRequest(); }
             }
@@ -152,6 +152,7 @@ namespace ChessDatabase.Controllers
         public ActionResult RefreshToken(string username)
         {
             User user = _userService.Get(username);
+            RefreshToken oldRToken = user.token.refreshToken;
 
             RefreshToken checkToken = user.token.refreshToken;
 
@@ -160,9 +161,14 @@ namespace ChessDatabase.Controllers
                 JsonWebToken newAccessToken = new JsonWebToken();
                 newAccessToken.token = GenerateToken(user.Username);
                 user.token = newAccessToken;
+
                 RefreshToken newRefreshToken = new RefreshToken();
                 newRefreshToken.refreshToken = GenerateRefreshToken();
-                user.token.refreshToken = newRefreshToken;
+                _tokenService.Create(newRefreshToken);
+                _tokenService.Remove(checkToken);
+                _tokenService.Update(checkToken.Id, oldRToken);
+                newAccessToken.refreshToken = newRefreshToken;
+
                 _userService.Update(username, user);
 
                 return Ok(newAccessToken);
@@ -173,15 +179,15 @@ namespace ChessDatabase.Controllers
             }
         }
 
-        private bool IsValidRefreshToken(RefreshToken refreshToken)
+        private bool IsValidRefreshToken(RefreshToken checkToken)
         {
-            if (refreshToken.revoked == true)
+            if (checkToken.revoked == true)
             {
                 return false;
-            }else if (refreshToken.refreshToken != _tokenService.Get(refreshToken.Id).refreshToken)
+            }else if (checkToken.refreshToken != _tokenService.Get(checkToken.Id).refreshToken)
             {
                 return false;
-            }else if ( refreshToken.refreshToken == _tokenService.Get(refreshToken.Id).refreshToken)
+            }else if ( checkToken.refreshToken == _tokenService.Get(checkToken.Id).refreshToken)
             {
                 return true;
             }

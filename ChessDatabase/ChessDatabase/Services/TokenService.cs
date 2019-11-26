@@ -41,9 +41,9 @@ namespace ChessDatabase.Services
             revokeToken.revoked = true;
         }
 
-        public void Remove(string id)
+        public void Remove(string token)
         {
-            var revokeToken = _refreshTokens.Find<RefreshToken>(refreshToken => refreshToken.Id == id).FirstOrDefault();
+            var revokeToken = _refreshTokens.Find<RefreshToken>(refreshToken => refreshToken.refreshToken == token).FirstOrDefault();
             revokeToken.revoked = true;
         }
     }
