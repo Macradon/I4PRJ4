@@ -8,8 +8,10 @@ export enum PlayerColor {
 
 export interface ChessPiece {
   playerColor: PlayerColor;
-  position: BoardPosition;
   pictureURL: string;
 
-  getAvailableMoves(boardState: BoardTile[][]): BoardTile[];
+  getAvailableMoves(
+    position: BoardPosition,
+    boardState: BoardTile[][]
+  ): BoardTile[];
 }
