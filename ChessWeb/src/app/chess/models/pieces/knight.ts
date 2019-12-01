@@ -1,74 +1,62 @@
 import { ChessPiece, PlayerColor } from "../chess-piece";
 import { BoardPosition } from "../board-position";
 import { BoardTile } from "../board-tile";
-import { filterPossibleMoves, BOARD_SIZE } from "../utils";
+import { filterPossibleMoves, BOARD_SIZE } from "../utils/utils";
 
 export class Knight implements ChessPiece {
   playerColor: PlayerColor;
   pictureURL: string;
   position: BoardPosition;
 
-  constructor(player: PlayerColor, position: BoardPosition) {
+  constructor(player: PlayerColor) {
     this.playerColor = player;
-    this.position = position;
+    this.pictureURL =
+      player === PlayerColor.Black ? URL_KNIGHT_BLACK : URL_KNIGHT_WHITE;
   }
 
-  getAvailableMoves(boardState: BoardTile[][]): BoardTile[] {
+  getAvailableMoves(
+    position: BoardPosition,
+    boardState: BoardTile[][]
+  ): BoardTile[] {
     const possibleMoves: BoardTile[] = [];
 
     //North
-    if (this.position.y - 2 >= 0) {
-      if (this.position.x - 1 >= 0) {
-        possibleMoves.push(
-          boardState[this.position.x - 1][this.position.y - 2]
-        );
+    if (position.y - 2 >= 0) {
+      if (position.x - 1 >= 0) {
+        possibleMoves.push(boardState[position.x - 1][position.y - 2]);
       }
-      if (this.position.x + 1 < BOARD_SIZE) {
-        possibleMoves.push(
-          boardState[this.position.x + 1][this.position.y - 2]
-        );
+      if (position.x + 1 < BOARD_SIZE) {
+        possibleMoves.push(boardState[position.x + 1][position.y - 2]);
       }
     }
 
     //South
-    if (this.position.y + 2 >= 0) {
-      if (this.position.x - 1 >= 0) {
-        possibleMoves.push(
-          boardState[this.position.x - 1][this.position.y + 2]
-        );
+    if (position.y + 2 >= 0) {
+      if (position.x - 1 >= 0) {
+        possibleMoves.push(boardState[position.x - 1][position.y + 2]);
       }
-      if (this.position.x + 1 < BOARD_SIZE) {
-        possibleMoves.push(
-          boardState[this.position.x + 1][this.position.y + 2]
-        );
+      if (position.x + 1 < BOARD_SIZE) {
+        possibleMoves.push(boardState[position.x + 1][position.y + 2]);
       }
     }
 
     //East
-    if (this.position.x + 2 >= 0) {
-      if (this.position.y - 1 >= 0) {
-        possibleMoves.push(
-          boardState[this.position.x + 2][this.position.y - 1]
-        );
+    if (position.x + 2 >= 0) {
+      if (position.y - 1 >= 0) {
+        possibleMoves.push(boardState[position.x + 2][position.y - 1]);
       }
-      if (this.position.x + 1 < BOARD_SIZE) {
-        possibleMoves.push(
-          boardState[this.position.x + 2][this.position.y + 1]
-        );
+      if (position.x + 1 < BOARD_SIZE) {
+        possibleMoves.push(boardState[position.x + 2][position.y + 1]);
       }
     }
 
     //West
-    if (this.position.x - 2 >= 0) {
-      if (this.position.y - 1 >= 0) {
-        possibleMoves.push(
-          boardState[this.position.x - 2][this.position.y - 1]
-        );
+    if (position.x - 2 >= 0) {
+      if (position.y - 1 >= 0) {
+        possibleMoves.push(boardState[position.x - 2][position.y - 1]);
       }
-      if (this.position.x + 1 < BOARD_SIZE) {
-        possibleMoves.push(
-          boardState[this.position.x - 2][this.position.y + 1]
-        );
+      if (position.x + 1 < BOARD_SIZE) {
+        possibleMoves.push(boardState[position.x - 2][position.y + 1]);
       }
     }
 

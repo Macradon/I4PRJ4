@@ -1,32 +1,36 @@
 import { ChessPiece, PlayerColor } from "../chess-piece";
 import { BoardPosition } from "../board-position";
 import { BoardTile } from "../board-tile";
-import { availableMovesInDirection, Direction } from "../utils";
+import { availableMovesInDirection, Direction } from "../utils/utils";
 
 export class Bishop implements ChessPiece {
   playerColor: PlayerColor;
   position: BoardPosition;
   pictureURL: string;
 
-  constructor(player: PlayerColor, position: BoardPosition) {
+  constructor(player: PlayerColor) {
     this.playerColor = player;
-    this.position = position;
+    this.pictureURL =
+      player === PlayerColor.Black ? URL_BISHOP_BLACK : URL_BISHOP_WHITE;
   }
 
-  getAvailableMoves(boardState: BoardTile[][]): BoardTile[] {
+  getAvailableMoves(
+    position: BoardPosition,
+    boardState: BoardTile[][]
+  ): BoardTile[] {
     const result: BoardTile[] = [];
 
     result.concat(
-      availableMovesInDirection(this.position, Direction.NORTHEAST, boardState)
+      availableMovesInDirection(position, Direction.NORTHEAST, boardState)
     );
     result.concat(
-      availableMovesInDirection(this.position, Direction.SOUTHEAST, boardState)
+      availableMovesInDirection(position, Direction.SOUTHEAST, boardState)
     );
     result.concat(
-      availableMovesInDirection(this.position, Direction.SOUTHWEST, boardState)
+      availableMovesInDirection(position, Direction.SOUTHWEST, boardState)
     );
     result.concat(
-      availableMovesInDirection(this.position, Direction.NORTHWEST, boardState)
+      availableMovesInDirection(position, Direction.NORTHWEST, boardState)
     );
 
     return result;

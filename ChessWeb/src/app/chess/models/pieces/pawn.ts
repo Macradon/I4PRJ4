@@ -1,47 +1,46 @@
 import { ChessPiece, PlayerColor } from "../chess-piece";
 import { BoardPosition } from "../board-position";
 import { BoardTile } from "../board-tile";
-import { filterPossibleMoves, BOARD_SIZE } from "../utils";
+import { filterPossibleMoves, BOARD_SIZE } from "../utils/utils";
 
 export class Pawn implements ChessPiece {
   playerColor: PlayerColor;
   pictureURL: string;
-  position: BoardPosition;
-  firstMove: boolean = true;
+  firstMove = true;
 
-  constructor(player: PlayerColor, position: BoardPosition) {
+  constructor(player: PlayerColor) {
     this.playerColor = player;
-    this.position = position;
+    this.pictureURL =
+      player === PlayerColor.Black ? URL_PAWN_BLACK : URL_PAWN_WHITE;
   }
 
-  getAvailableMoves(boardState: BoardTile[][]): BoardTile[] {
+  getAvailableMoves(
+    position: BoardPosition,
+    boardState: BoardTile[][]
+  ): BoardTile[] {
     const possibleMoves: BoardTile[] = [];
 
-    const movement = this.playerColor == PlayerColor.White ? 1 : -1;
+    const movement = this.playerColor === PlayerColor.Black ? 1 : -1;
 
     const forwardTile =
-      this.position.y + movement < BOARD_SIZE
-        ? boardState[this.position.x][this.position.y + movement]
+      position.y + movement < BOARD_SIZE
+        ? boardState[position.x][position.y + movement]
         : null;
     if (forwardTile) {
       if (this.firstMove && !forwardTile.piece) {
-        possibleMoves.push(
-          boardState[this.position.x][this.position.y + movement * 2]
-        );
+        possibleMoves.push(boardState[position.x][position.y + movement * 2]);
       }
 
       possibleMoves.push(forwardTile);
 
-      if (this.position.x - 1 >= 0) {
-        const attackPos1 =
-          boardState[this.position.x - 1][this.position.y + movement];
+      if (position.x - 1 >= 0) {
+        const attackPos1 = boardState[position.x - 1][position.y + movement];
         if (attackPos1.piece) {
           possibleMoves.push(attackPos1);
         }
       }
-      if (this.position.x + 1 < BOARD_SIZE) {
-        const attackPos2 =
-          boardState[this.position.x + 1][this.position.y + movement];
+      if (position.x + 1 < BOARD_SIZE) {
+        const attackPos2 = boardState[position.x + 1][position.y + movement];
         if (attackPos2.piece) {
           possibleMoves.push(attackPos2);
         }
