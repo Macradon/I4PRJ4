@@ -1,7 +1,7 @@
 import { ChessPiece, PlayerColor } from "../chess-piece";
 import { BoardPosition } from "../board-position";
 import { BoardTile } from "../board-tile";
-import { availableMovesInDirection, Direction } from "../utils/utils";
+import { availableMovesInDirection, Direction } from "../utils/piece-utils";
 
 export class Rook implements ChessPiece {
   pictureURL: string;

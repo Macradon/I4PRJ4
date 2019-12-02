@@ -1,7 +1,8 @@
 import { ChessPiece, PlayerColor } from "../chess-piece";
 import { BoardPosition } from "../board-position";
 import { BoardTile } from "../board-tile";
-import { filterPossibleMoves, BOARD_SIZE } from "../utils/utils";
+import { filterPossibleMoves } from "../utils/piece-utils";
+import { BOARD_SIZE } from "../utils/game-utils";
 
 export class Knight implements ChessPiece {
   playerColor: PlayerColor;
