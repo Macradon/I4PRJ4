@@ -8,6 +8,7 @@ namespace ChessDatabase.Interfaces
     public interface IChessBosDataSettings
     {
         string UsersCollectionName { get; set; }
+        string HighscoresCollectionName { get; set; }
         string RefreshTokensCollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }

@@ -20,7 +20,7 @@ namespace ChessDatabase.Services
             _users = database.GetCollection<User>(settings.UsersCollectionName);
         }
 
-        public List<User> Get() =>
+        public List<User> GetAll() =>
             _users.Find(user => true).ToList();
 
         public User Get(string username) =>

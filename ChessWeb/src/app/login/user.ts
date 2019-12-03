@@ -1,3 +1,5 @@
+import { Token } from '@angular/compiler/src/ml_parser/lexer';
+
 export class User {
     firstName: String;
     lastName: String;
@@ -7,4 +9,16 @@ export class User {
     bestTime: String;
     gamesWon: Number;
     avgMovesNumber: Number;
+    token: token;
+}
+
+export class token {
+    token: String;
+    refreshToken: RefreshToken;
+}
+
+export class RefreshToken{
+    id: String;
+    refreshToken: string;
+    revoked: Boolean;
 }

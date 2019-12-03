@@ -1,5 +1,5 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { User } from './user';
+import { User, RefreshToken } from './user';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -16,7 +16,7 @@ export class LoginService {
   loggedInStatus: boolean;
   redirectUrl: string;
   user: User;
-
+  refreshtoken: RefreshToken;
   constructor(private http: HttpClient) { }
 
   login(data: any): Observable<any> {
@@ -31,16 +31,21 @@ export class LoginService {
   }
 
   
-  logout() {
-    //Localstorage needs to have a token and user for it to work
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    this.isLoggedIn.emit(false);
-    this.loggedInStatus = false;
+  logout(data: any): Observable<any> {
+    localStorage.removeItem('user');        
+    console.log("token", data.token)
+    return this.http.post(`${this.uri}/logout`, data)
+    .pipe(
+      tap(_ => {
+        this.isLoggedIn.emit(false);
+        this.loggedInStatus = false;
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');        
+      })
+    )    
   }
   
   register(data: any): Observable<any> {
-    console.log("service", data)
     return this.http.post(`${this.uri}/register`, 
     {
       Username: data.Username, 
@@ -50,4 +55,7 @@ export class LoginService {
     })
   }
 
+  getUsers() {
+    return this.http.get(`${this.uri}/users`);
+  }
 }

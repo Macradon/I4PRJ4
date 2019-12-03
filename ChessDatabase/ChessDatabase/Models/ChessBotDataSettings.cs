@@ -10,6 +10,7 @@ namespace ChessDatabase.Models
     {
         public string UsersCollectionName { get; set; }
         public string RefreshTokensCollectionName { get; set; }
+        public string HighscoresCollectionName { get; set; }
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
     }

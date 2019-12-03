@@ -42,10 +42,13 @@ export class SignInComponent implements OnInit {
   this.service
     .login(form)
     .subscribe(res => {
-      if (res.token) {
-        localStorage.setItem('token', res.token);
-       // localStorage.setItem('user', res.user.firstName);
-        //this.service.user = res.user;
+      if (res) {
+        localStorage.setItem('token', res.token.refreshToken.refreshToken);
+        localStorage.setItem('username', res.firstName);
+        localStorage.setItem('userId', res.Id);
+        console.log("user:", res)
+        this.service.user = res;
+        console.log(localStorage)
       }
     }, (err) => {
       console.log(err);

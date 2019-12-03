@@ -71,6 +71,23 @@ namespace ChessDatabase.Controllers
             else { return BadRequest(); }
         }
 
+        [HttpPost("logout")]
+        public ActionResult logout(User user)
+        {
+            _tokenService.Delete(user.token.refreshToken.refreshToken);
+            user.token = null;
+            _userService.Update(user.Username, user);
+            return Ok("Token removed");
+        }
+
+        [HttpGet("users")]
+        public ActionResult users()
+        {
+            var userList = new List<User>();
+            userList = _userService.GetAll();
+            return Ok(userList);
+        }
+
         private bool IsExistingUsername(string username)
         {
             if (username != _userService.Get(username).Username)

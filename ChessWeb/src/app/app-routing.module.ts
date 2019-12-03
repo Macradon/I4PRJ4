@@ -9,11 +9,11 @@ import { ProfileComponent } from './login/profile/profile.component';
 
 
 const routes: Routes = [
-  { path: '', component: MainPageComponent },
-  { path: 'highscores',  component: HighScoresComponent},
+  { path: '', component: HighScoresComponent },
+  { path: 'menu',  canActivate: [AuthGuard], component: MainPageComponent},
   { path: 'login', component: SignInComponent},
   { path: 'register', component: RegisterComponent},
-  { path: 'myprofile', component: ProfileComponent}
+  { path: 'myprofile', canActivate: [AuthGuard], component: ProfileComponent}
   // når login kræves først{ path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
 
