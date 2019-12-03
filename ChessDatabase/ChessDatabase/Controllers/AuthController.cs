@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using ChessDatabase.Models;
 using ChessDatabase.Services;
 using System.Web.Http.Cors;
+using Microsoft.AspNetCore.Identity;
 
 namespace ChessDatabase.Controllers
 {
