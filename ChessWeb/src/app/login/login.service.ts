@@ -16,6 +16,7 @@ export class LoginService {
   loggedInStatus: boolean;
   redirectUrl: string;
   user: User;
+  userList: User[];
   refreshtoken: RefreshToken;
   constructor(private http: HttpClient) { }
 

@@ -39,7 +39,8 @@ import { MainPageModule } from './main-page/main-page.module';
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
-    MatMenuModule
+    MatMenuModule,
+    ChessModule
   ],
   providers: [],
   bootstrap: [AppComponent]

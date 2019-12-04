@@ -47,6 +47,7 @@ export class SignInComponent implements OnInit {
         localStorage.setItem('username', res.firstName);
         localStorage.setItem('userId', res.Id);        
         this.service.user = res;
+        this.router.navigate(['']);
       }
     }, (err) => {
       console.log(err);

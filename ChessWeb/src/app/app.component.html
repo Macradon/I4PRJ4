@@ -4,8 +4,6 @@
     font-size: 18px;
     color: #333;
     box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
   
   /* Responsive Styles */
@@ -17,16 +15,13 @@
   <img width="5" >
   <button mat-button *ngIf="loginStatus === true" [matMenuTriggerFor]="belowMenu">What do you feel like {{this.username}}?</button>
   <mat-menu #belowMenu="matMenu" yPosition="below">  
-    <button mat-menu-item><a routerLink="game/:id"  class="nav-link" routerLinkActive="active">
-      Resume game
-    </a></button>
-    <button mat-menu-item> <a routerLink="newgame" class="nav-link" routerLinkActive="active">
+    <button mat-menu-item> <a routerLink="game" class="nav-link" routerLinkActive="active">
       Start new game
     </a></button>
-      <button mat-menu-item> <a routerLink="" class="nav-link" routerLinkActive="active">
+      <button mat-menu-item> <a routerLink="highscores" class="nav-link" routerLinkActive="active">
         See high scores
     </a></button>  
-    <button mat-menu-item> <a routerLink="menu" class="nav-link" routerLinkActive="active">
+    <button mat-menu-item> <a routerLink="" class="nav-link" routerLinkActive="active">
       Main menu
     </a></button>  
     <button mat-menu-item> <a routerLink="myprofile" class="nav-link" routerLinkActive="active">

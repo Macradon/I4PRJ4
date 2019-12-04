@@ -14,7 +14,6 @@ export class AppComponent {
   loginStatus = false;
   username: string;
   token: string;
-  users: User[];
   currentUser: User;
 
   constructor( private router: Router, 
@@ -26,9 +25,10 @@ export class AppComponent {
       this.service
       .getUsers()      
       .subscribe((data:User[]) => {
-        this.users = data;        
+        this.service.userList = data;
+        console.log(this.service.userList)        
     }); 
-     
+    
     if(this.token) {
       this.loginStatus = true;
     } else {
@@ -46,7 +46,7 @@ export class AppComponent {
   }
 
   logout() {
-   this.currentUser = this.users.find(x => x.Id == localStorage.getItem('userId'));
+   this.currentUser = this.service.userList.find(x => x.Id == localStorage.getItem('userId'));
     this.service.logout(this.currentUser)
       .subscribe(res => {
         this.loginStatus = false;
