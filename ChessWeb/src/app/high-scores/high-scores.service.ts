@@ -12,7 +12,7 @@ export class HighScoresService {
   constructor(private http: HttpClient) { }
 
   createHighScore(data) {
-  this.http.post(`${this.uri}`, data)
+  this.http.post(`${this.uri}/create`, data)
     .subscribe(res => console.log('Done'));
   }
 

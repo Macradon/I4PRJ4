@@ -74,7 +74,7 @@ namespace ChessDatabase.Controllers
         [HttpPost("logout")]
         public ActionResult logout(User user)
         {
-            _tokenService.Delete(user.token.refreshToken.refreshToken);
+            _tokenService.Delete(user.token.refreshToken.refreshToken);            
             user.token = null;
             _userService.Update(user.Username, user);
             return Ok("Token removed");

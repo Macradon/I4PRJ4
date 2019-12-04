@@ -45,10 +45,8 @@ export class SignInComponent implements OnInit {
       if (res) {
         localStorage.setItem('token', res.token.refreshToken.refreshToken);
         localStorage.setItem('username', res.firstName);
-        localStorage.setItem('userId', res.Id);
-        console.log("user:", res)
+        localStorage.setItem('userId', res.Id);        
         this.service.user = res;
-        console.log(localStorage)
       }
     }, (err) => {
       console.log(err);

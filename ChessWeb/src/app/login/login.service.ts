@@ -32,19 +32,18 @@ export class LoginService {
 
   
   logout(data: any): Observable<any> {
-    localStorage.removeItem('user');        
-    console.log("token", data.token)
-    return this.http.post(`${this.uri}/logout`, data)
+    return this.http.post(`${this.uri}/logout?token=${data}`, data)
     .pipe(
-      tap(_ => {
+      tap(_ => {  
         this.isLoggedIn.emit(false);
         this.loggedInStatus = false;
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');        
+        localStorage.removeItem('token');  
+        localStorage.removeItem('username');
+        localStorage.removeItem('userId');       
       })
-    )    
-  }
-  
+    ); 
+  }   
+
   register(data: any): Observable<any> {
     return this.http.post(`${this.uri}/register`, 
     {

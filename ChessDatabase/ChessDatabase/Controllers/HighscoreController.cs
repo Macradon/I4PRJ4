@@ -28,12 +28,17 @@ namespace ChessDatabase.Controllers
             _highscoreService = highscoreService;
         }
 
-        [HttpPost("highscore")]
+        [HttpPost("create")]
         public ActionResult CreateHighscore(Highscore highscore)
         {
             Highscore newScore = new Highscore()
             {
-                //indsæt data for highscore
+                username = highscore.username,
+                firstName = highscore.firstName,
+                lastName = highscore.lastName,
+                time = highscore.time,
+                won = highscore.won,
+                numberOfMoves = highscore.numberOfMoves
             };
 
             _highscoreService.Create(newScore);
