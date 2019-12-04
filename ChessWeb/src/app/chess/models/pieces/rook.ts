@@ -1,32 +1,37 @@
 import { ChessPiece, PlayerColor } from "../chess-piece";
 import { BoardPosition } from "../board-position";
 import { BoardTile } from "../board-tile";
-import { availableMovesInDirection, Direction } from "../utils";
+import { availableMovesInDirection, Direction } from "../utils/piece-utils";
+import { URL_ROOK_BLACK, URL_ROOK_WHITE } from "../utils/urls";
 
 export class Rook implements ChessPiece {
   pictureURL: string;
   position: BoardPosition;
-  player: PlayerColor;
+  playerColor: PlayerColor;
 
-  constructor(player: PlayerColor, position: BoardPosition) {
-    this.player = player;
-    this.position = position;
+  constructor(player: PlayerColor) {
+    this.playerColor = player;
+    this.pictureURL =
+      player === PlayerColor.Black ? URL_ROOK_BLACK : URL_ROOK_WHITE;
   }
 
-  getAvailableMoves(boardState: BoardTile[][]): BoardTile[] {
-    const result: BoardTile[] = [];
+  getAvailableMoves(
+    position: BoardPosition,
+    boardState: BoardTile[][]
+  ): BoardTile[] {
+    let result: BoardTile[] = [];
 
-    result.concat(
-      availableMovesInDirection(this.position, Direction.NORTH, boardState)
+    result = result.concat(
+      availableMovesInDirection(position, Direction.NORTH, boardState)
     );
-    result.concat(
-      availableMovesInDirection(this.position, Direction.EAST, boardState)
+    result = result.concat(
+      availableMovesInDirection(position, Direction.EAST, boardState)
     );
-    result.concat(
-      availableMovesInDirection(this.position, Direction.SOUTH, boardState)
+    result = result.concat(
+      availableMovesInDirection(position, Direction.SOUTH, boardState)
     );
-    result.concat(
-      availableMovesInDirection(this.position, Direction.WEST, boardState)
+    result = result.concat(
+      availableMovesInDirection(position, Direction.WEST, boardState)
     );
 
     return result;

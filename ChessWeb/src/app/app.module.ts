@@ -17,6 +17,7 @@ import { ToastComponent } from './toast/toast.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { HighScoresComponent } from './high-scores/high-scores.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChessModule } from "./chess/chess.module";
 
 import { MainPageModule } from './main-page/main-page.module';
 
@@ -43,4 +44,4 @@ import { MainPageModule } from './main-page/main-page.module';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

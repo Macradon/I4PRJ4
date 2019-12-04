@@ -1,0 +1,15 @@
+<div fxLayout="row">
+  <app-board
+    [board]="board"
+    [selectedTile]="selectedTile"
+    [possibleMoves]="availableMoves"
+    class="board"
+    (tileSelect)="onTileSelect($event)"
+  >
+  </app-board>
+  <div>Turns taken: {{ turnsTaken }}</div>
+</div>
+
+<div *ngIf="selectedTile">
+  X = {{ selectedTile.position.x }} Y= {{ selectedTile.position.y }}
+</div>

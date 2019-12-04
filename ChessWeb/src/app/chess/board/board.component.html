@@ -1,0 +1,13 @@
+<div fxLayout="row">
+  <div *ngFor="let column of board; index as i" fxLayout="column">
+    <app-board-tile
+      *ngFor="let tile of column; index as i"
+      [tile]="tile"
+      [possibleMoves]="possibleMoves"
+      [selectedTile]="selectedTile"
+      fxFlex="100px"
+      (tileClicked)="onTileSelect($event)"
+    >
+    </app-board-tile>
+  </div>
+</div>

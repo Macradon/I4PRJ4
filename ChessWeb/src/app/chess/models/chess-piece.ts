@@ -7,9 +7,11 @@ export enum PlayerColor {
 }
 
 export interface ChessPiece {
-  player: PlayerColor;
-  position: BoardPosition;
+  playerColor: PlayerColor;
   pictureURL: string;
 
-  getAvailableMoves(boardState: BoardTile[][]): BoardTile[];
+  getAvailableMoves(
+    position: BoardPosition,
+    boardState: BoardTile[][]
+  ): BoardTile[];
 }
