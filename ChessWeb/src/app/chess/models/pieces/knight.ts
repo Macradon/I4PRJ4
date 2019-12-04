@@ -47,7 +47,7 @@ export class Knight implements ChessPiece {
       if (position.y - 1 >= 0) {
         possibleMoves.push(boardState[position.x + 2][position.y - 1]);
       }
-      if (position.x + 1 < BOARD_SIZE) {
+      if (position.y + 1 < BOARD_SIZE) {
         possibleMoves.push(boardState[position.x + 2][position.y + 1]);
       }
     }
@@ -61,7 +61,7 @@ export class Knight implements ChessPiece {
         possibleMoves.push(boardState[position.x - 2][position.y + 1]);
       }
     }
-
+    console.log(possibleMoves);
     return filterPossibleMoves(this.playerColor, possibleMoves);
   }
 }

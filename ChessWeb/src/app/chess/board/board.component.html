@@ -3,6 +3,8 @@
     <app-board-tile
       *ngFor="let tile of column; index as i"
       [tile]="tile"
+      [possibleMoves]="possibleMoves"
+      [selectedTile]="selectedTile"
       fxFlex="100px"
       (tileClicked)="onTileSelect($event)"
     >

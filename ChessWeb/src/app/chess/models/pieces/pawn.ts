@@ -30,10 +30,14 @@ export class Pawn implements ChessPiece {
         : null;
     if (forwardTile) {
       if (this.firstMove && !forwardTile.piece) {
-        possibleMoves.push(boardState[position.x][position.y + movement * 2]);
+        const move = boardState[position.x][position.y + movement * 2];
+        if (!move.piece) {
+          possibleMoves.push(move);
+        }
       }
-
-      possibleMoves.push(forwardTile);
+      if (!forwardTile.piece) {
+        possibleMoves.push(forwardTile);
+      }
 
       if (position.x - 1 >= 0) {
         const attackPos1 = boardState[position.x - 1][position.y + movement];

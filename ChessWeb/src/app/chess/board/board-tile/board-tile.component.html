@@ -1,4 +1,11 @@
-<div class="tile black-back" (click)="onSelect()">
+<div
+  class="tile "
+  [class.black-back]="tile.isBlack"
+  [class.selected]="selected"
+  [class.movable]="moveable"
+  (click)="onSelect()"
+  fxLayoutAlign="center"
+>
   <div *ngIf="tile.piece">
     <img src="{{ tile.piece.pictureURL }} " class="image" />
   </div>

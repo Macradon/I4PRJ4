@@ -1,4 +1,11 @@
-import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  Input,
+  OnChanges
+} from "@angular/core";
 import { BoardTile } from "../../models/board-tile";
 
 @Component({
@@ -6,7 +13,10 @@ import { BoardTile } from "../../models/board-tile";
   templateUrl: "./board-tile.component.html",
   styleUrls: ["./board-tile.component.sass"]
 })
-export class BoardTileComponent {
+export class BoardTileComponent implements OnChanges {
+  public selected = false;
+  public moveable = false;
+
   @Input()
   public tile: BoardTile = null;
   @Input()
@@ -18,5 +28,23 @@ export class BoardTileComponent {
 
   public onSelect() {
     this.tileClicked.emit(this.tile);
+  }
+
+  ngOnChanges() {
+    console.log("changes");
+    if (this.selectedTile) {
+      this.selected = this.selectedTile.id === this.tile.id ? true : false;
+    } else {
+      this.selected = false;
+    }
+
+    if (this.possibleMoves) {
+      const contained = this.possibleMoves.filter(
+        move => move.id === this.tile.id
+      );
+      this.moveable = contained.length > 0 ? true : false;
+    } else {
+      this.moveable = false;
+    }
   }
 }

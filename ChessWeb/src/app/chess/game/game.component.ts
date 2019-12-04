@@ -22,6 +22,9 @@ export class GameComponent {
   private whitePieces: BoardTile[] = [];
   private blackPieces: BoardTile[] = [];
   private ai: ChessAI;
+  public turnsTaken = 0;
+  private startTime: Date = new Date();
+  private endTime: Date = null;
 
   constructor() {
     this.board = createBoard();
@@ -58,8 +61,11 @@ export class GameComponent {
 
           if (validMove.length > 0) {
             this.movePiece(this.selectedTile, tile);
+            this.turnsTaken++;
 
-            this.takeAITurn();
+            if (!this.gameOver) {
+              this.takeAITurn();
+            }
           }
         }
       }
@@ -74,6 +80,7 @@ export class GameComponent {
     if (to.piece) {
       if (to.piece instanceof King) {
         this.gameOver = true;
+        this.endTime = new Date();
         this.youWin = this.playerTurn ? true : false;
       } else {
         if (to.piece.playerColor === PlayerColor.White) {
