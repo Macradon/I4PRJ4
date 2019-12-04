@@ -24,6 +24,7 @@ namespace ChessDatabase.Controllers
     {
         private readonly TokenService _tokenService;
         private readonly UserService _userService;
+        private readonly PasswordHasher<User> _passHash = new PasswordHasher<User>();
 
         public AuthController(TokenService tokenService, UserService userService)
         {
@@ -41,6 +42,7 @@ namespace ChessDatabase.Controllers
                 Username = user.Username,
                 password = user.password
             };
+            newUserRegistration.password = _passHash.HashPassword(newUserRegistration, newUserRegistration.password);
 
             _userService.Create(newUserRegistration);
 
