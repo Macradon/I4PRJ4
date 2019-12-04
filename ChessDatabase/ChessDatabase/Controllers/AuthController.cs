@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using ChessDatabase.Models;
 using ChessDatabase.Services;
 using System.Web.Http.Cors;
+using Microsoft.AspNetCore.Identity;
 
 namespace ChessDatabase.Controllers
 {
@@ -23,6 +24,7 @@ namespace ChessDatabase.Controllers
     {
         private readonly TokenService _tokenService;
         private readonly UserService _userService;
+        private readonly PasswordHasher<User> _passHash = new PasswordHasher<User>();
 
         public AuthController(TokenService tokenService, UserService userService)
         {
@@ -40,6 +42,7 @@ namespace ChessDatabase.Controllers
                 Username = user.Username,
                 password = user.password
             };
+            newUserRegistration.password = _passHash.HashPassword(newUserRegistration, newUserRegistration.password);
 
             _userService.Create(newUserRegistration);
 
@@ -102,14 +105,21 @@ namespace ChessDatabase.Controllers
 
         private bool IsCorrectPassword(string username, string password)
         {
-            if (password != _userService.Get(username).password)
+            User user = _userService.Get(username);
+            switch (_passHash.VerifyHashedPassword(user,user.password,password))
             {
-                return false;
-            }else if ( password == _userService.Get(username).password)
-            {
-                return true;
+                case PasswordVerificationResult.Failed:
+                    Console.WriteLine("You failed.");
+                    return false;
+                case PasswordVerificationResult.Success:
+                    Console.WriteLine("We did it reddit.");
+                    return true;
+                case PasswordVerificationResult.SuccessRehashNeeded:
+                    Console.WriteLine("Close but succeeded.");
+                    return true;
+                default:
+                    return false;
             }
-            else { return false; }
         }
 
         //Endpoint til udvikling så man kan få en token hurtigt uden at man skal logge ind
