@@ -1,0 +1,19 @@
+<div class="card-container" >
+  <div class="card" (click)="selection.value = 'component'" tabindex="0">
+          <img src = 'assets/img/continue.png' width = "50" height = "50">
+    <span>Continue game</span>
+  </div>
+
+  <div class="card" (click)="selection.value = 'material'" tabindex="0">
+          <img src = 'assets/img/new.png' width = "50" height = "50">
+    <span>New game</span>
+  </div>
+
+  <div class="card" (click)="selection.value = 'material'" tabindex="0">
+      <a  [routerLink] = "['']">
+          <img src = 'assets/img/highscores.png' width = "50" height = "50">
+          <span>High scores</span></a>
+      </div>
+</div>    
+
+

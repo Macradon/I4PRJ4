@@ -14,6 +14,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using ChessDatabase.Models;
+using ChessDatabase.Interfaces;
+using Microsoft.Extensions.Options;
+using ChessDatabase.Services;
+using System.Web.Http.Cors;
 
 namespace ChessDatabase
 {
@@ -33,6 +38,15 @@ namespace ChessDatabase
             string securityKey = "one_security_key_to_validate_them_all_project_2019$chess";
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                  "CorsPolicy",
+                  builder => builder.WithOrigins("http://localhost:4200")
+                  .AllowAnyMethod()
+                  .AllowAnyHeader()
+                  .AllowCredentials());
+            });
 
             services.AddMvc();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -51,7 +65,18 @@ namespace ChessDatabase
                         IssuerSigningKey = symmetricSecurityKey
                     };
                 });
-            services.AddControllers();
+
+            //Database
+            services.Configure<ChessBotDataSettings>(
+                Configuration.GetSection(nameof(ChessBotDataSettings)));
+            services.AddSingleton<IChessBosDataSettings>(sp =>
+                sp.GetRequiredService<IOptions<ChessBotDataSettings>>().Value);
+
+            services.AddSingleton<UserService>();
+            services.AddSingleton<TokenService>();
+
+            services.AddControllers()
+                .AddNewtonsoftJson(options => options.UseMemberCasing());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +90,8 @@ namespace ChessDatabase
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();

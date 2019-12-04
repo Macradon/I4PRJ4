@@ -1,0 +1,46 @@
+<div class="card-container">
+  <div class="card">
+    <form [formGroup]="registerForm" (ngSubmit)="onFormSubmit(registerForm.value)"> 
+      <mat-form-field class="example-full-width">
+        <input matInput type="text" formControlName="firstName"
+        placeholder="First name" [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!registerForm.get('firstName').valid && registerForm.get('firstName').touched">Please enter your first name</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput type="text" formControlName="lastName"
+        placeholder="Last name" [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!registerForm.get('lastName').valid && registerForm.get('lastName').touched">Please enter your last name</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput type="email" formControlName="Username"
+        placeholder="E-mail" [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!registerForm.get('Username').valid && registerForm.get('Username').touched">Please enter your e-mail</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput  type="password" formControlName="password"
+        placeholder="Password" [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched">Please enter your password</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput type="password" formControlName="confirmPassword"
+        placeholder="Repeat password" [errorStateMatcher]="pwmatcher" (input)="onInput($event.target.value)">
+        <mat-error>
+          <span *ngIf="!registerForm.get('confirmPassword').valid && registerForm.get('confirmPassword').touched">Please confirm password</span>
+          <span *ngIf="registerForm.get('confirmPassword').touched && mismatch === true">Passwords don't match</span>
+        </mat-error>
+      </mat-form-field>
+      <div class="button-row">
+        <button type="submit" [disabled]="!registerForm.valid" mat-flat-button color="primary">Register</button>
+      </div>
+    </form>
+  </div>
+</div>
+  

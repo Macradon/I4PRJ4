@@ -10,26 +10,133 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ChessDatabase.Models;
+using ChessDatabase.Services;
+using System.Web.Http.Cors;
+using Microsoft.AspNetCore.Identity;
 
 namespace ChessDatabase.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AuthController : ControllerBase
     {
+        private readonly TokenService _tokenService;
+        private readonly UserService _userService;
+        private readonly PasswordHasher<User> _passHash = new PasswordHasher<User>();
 
-        [HttpPost("LogIn")]
-        public ActionResult Login(string username, string password)
+        public AuthController(TokenService tokenService, UserService userService)
         {
-
-            return Ok("Hello there");
+            _tokenService = tokenService;
+            _userService = userService;
         }
 
+        [HttpPost("register")]
+        public ActionResult Register(User user)
+        {
+            User newUserRegistration = new User()
+            {
+                firstName = user.firstName,
+                lastName = user.lastName,
+                Username = user.Username,
+                password = user.password
+            };
+            newUserRegistration.password = _passHash.HashPassword(newUserRegistration, newUserRegistration.password);
+
+            _userService.Create(newUserRegistration);
+
+            return Ok(newUserRegistration);
+        }
+
+        [HttpPost("login")]
+        public ActionResult Login(User usertest)
+        {
+            if (IsExistingUsername(usertest.Username))
+            {
+                User user = _userService.Get(usertest.Username);
+
+                if (IsCorrectPassword(usertest.Username, usertest.password))
+                {
+                    var token = new JsonWebToken();
+                    var rToken = new RefreshToken();
+                    token.token = GenerateToken(usertest.Username);
+                    rToken.refreshToken = GenerateRefreshToken();
+                    _tokenService.Create(rToken);
+                    token.refreshToken = rToken;
+                    user.token = token;
+
+                    _userService.Update(usertest.Username, user);
+                    return Ok(user);
+                }
+                else { return BadRequest(); }
+            }
+            else { return BadRequest(); }
+        }
+
+        [HttpPost("logout")]
+        public ActionResult logout(User user)
+        {
+            _tokenService.Delete(user.token.refreshToken.refreshToken);            
+            user.token = null;
+            _userService.Update(user.Username, user);
+            return Ok("Token removed");
+        }
+
+        [HttpGet("users")]
+        public ActionResult users()
+        {
+            var userList = new List<User>();
+            userList = _userService.GetAll();
+            return Ok(userList);
+        }
+
+        private bool IsExistingUsername(string username)
+        {
+            if (username != _userService.Get(username).Username)
+            {
+                return false;
+            }else if ( username == _userService.Get(username).Username)
+            {
+                return true;
+            }
+            else { return false; }
+        }
+
+        private bool IsCorrectPassword(string username, string password)
+        {
+            User user = _userService.Get(username);
+            switch (_passHash.VerifyHashedPassword(user,user.password,password))
+            {
+                case PasswordVerificationResult.Failed:
+                    Console.WriteLine("You failed.");
+                    return false;
+                case PasswordVerificationResult.Success:
+                    Console.WriteLine("We did it reddit.");
+                    return true;
+                case PasswordVerificationResult.SuccessRehashNeeded:
+                    Console.WriteLine("Close but succeeded.");
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        //Endpoint til udvikling så man kan få en token hurtigt uden at man skal logge ind
         [HttpPost("token")]
         public ActionResult GetToken(string username, string password)
         {
             if (IsValidCombination(username, password))
-                return new ObjectResult(GenerateToken(username));
+            {
+                var token = new JsonWebToken();
+                var rToken = new RefreshToken();
+                token.token = GenerateToken(username);
+                rToken.refreshToken = GenerateRefreshToken();
+                _tokenService.Create(rToken);
+                token.refreshToken = rToken;
+                return Ok(token);
+            }
+
             return BadRequest();
         }
 
@@ -76,9 +183,49 @@ namespace ChessDatabase.Controllers
         }
 
         [HttpPost("refresh")]
-        public ActionResult RefreshToken()
+        public ActionResult RefreshToken(string username)
         {
-            return Ok("Hello there");
+            User user = _userService.Get(username);
+            RefreshToken oldRToken = user.token.refreshToken;
+
+            RefreshToken checkToken = user.token.refreshToken;
+
+            if (IsValidRefreshToken(checkToken))
+            {
+                JsonWebToken newAccessToken = new JsonWebToken();
+                newAccessToken.token = GenerateToken(user.Username);
+                user.token = newAccessToken;
+
+                RefreshToken newRefreshToken = new RefreshToken();
+                newRefreshToken.refreshToken = GenerateRefreshToken();
+                _tokenService.Create(newRefreshToken);
+                _tokenService.Remove(checkToken);
+                _tokenService.Update(checkToken.Id, oldRToken);
+                newAccessToken.refreshToken = newRefreshToken;
+
+                _userService.Update(username, user);
+
+                return Ok(newAccessToken);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        private bool IsValidRefreshToken(RefreshToken checkToken)
+        {
+            if (checkToken.revoked == true)
+            {
+                return false;
+            }else if (checkToken.refreshToken != _tokenService.Get(checkToken.Id).refreshToken)
+            {
+                return false;
+            }else if ( checkToken.refreshToken == _tokenService.Get(checkToken.Id).refreshToken)
+            {
+                return true;
+            }
+            else { return false; }
         }
     }
 }

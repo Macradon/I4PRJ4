@@ -1,1 +1,44 @@
-<router-outlet></router-outlet>
+<style>
+   :host {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Lato, Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 18px;
+    color: #333;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Responsive Styles */
+  @media screen and (max-width: 767px) {
+    
+  }
+</style>
+<div class="toolbar" role="banner">
+  <img width="5" >
+  <button mat-button *ngIf="loginStatus === true" [matMenuTriggerFor]="belowMenu">What do you feel like {{this.username}}?</button>
+  <mat-menu #belowMenu="matMenu" yPosition="below">  
+    <button mat-menu-item><a routerLink="game/:id"  class="nav-link" routerLinkActive="active">
+      Resume game
+    </a></button>
+    <button mat-menu-item> <a routerLink="newgame" class="nav-link" routerLinkActive="active">
+      Start new game
+    </a></button>
+      <button mat-menu-item> <a routerLink="" class="nav-link" routerLinkActive="active">
+        See high scores
+    </a></button>  
+    <button mat-menu-item> <a routerLink="menu" class="nav-link" routerLinkActive="active">
+      Main menu
+    </a></button>  
+    <button mat-menu-item> <a routerLink="myprofile" class="nav-link" routerLinkActive="active">
+        My profile
+    </a></button>  
+  </mat-menu>
+  <div class="spacer"></div>
+  <button *ngIf="loginStatus === true" mat-button (click)="logout()">Sign out</button>
+  <button *ngIf="loginStatus === false"><a routerLink="login" class="nav-link" routerLinkActive="active">Sign in</a></button>
+</div>
+
+<div class="body-container">
+  <router-outlet></router-outlet>
+</div>
+

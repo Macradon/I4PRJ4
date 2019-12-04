@@ -8,6 +8,6 @@ namespace ChessDatabase.Models
     public class JsonWebToken
     {
         public string token { get; set; }
-        public string refreshToken { get; set; }
+        public RefreshToken refreshToken { get; set; }
     }
 }
