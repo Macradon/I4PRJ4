@@ -3,6 +3,7 @@ import { BoardPosition } from "../board-position";
 import { BoardTile } from "../board-tile";
 import { filterPossibleMoves } from "../utils/piece-utils";
 import { BOARD_SIZE } from "../utils/game-utils";
+import { URL_KING_BLACK, URL_KING_WHITE } from "../utils/urls";
 
 export class King implements ChessPiece {
   playerColor: PlayerColor;

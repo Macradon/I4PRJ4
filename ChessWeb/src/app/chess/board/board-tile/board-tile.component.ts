@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
+import { BoardTile } from "../../models/board-tile";
 
 @Component({
-  selector: 'app-board-tile',
-  templateUrl: './board-tile.component.html',
-  styleUrls: ['./board-tile.component.sass']
+  selector: "app-board-tile",
+  templateUrl: "./board-tile.component.html",
+  styleUrls: ["./board-tile.component.sass"]
 })
-export class BoardTileComponent implements OnInit {
+export class BoardTileComponent {
+  @Input()
+  public tile: BoardTile = null;
+  @Input()
+  public possibleMoves: BoardTile[] = [];
+  @Input()
+  public selectedTile: BoardTile = null;
+  @Output()
+  public tileClicked: EventEmitter<BoardTile> = new EventEmitter<BoardTile>();
 
-  constructor() { }
-
-  ngOnInit() {
+  public onSelect() {
+    this.tileClicked.emit(this.tile);
   }
-
 }

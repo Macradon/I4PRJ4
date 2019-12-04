@@ -13,42 +13,79 @@ export function createBoard(): BoardTile[][] {
   const board: BoardTile[][] = [];
 
   for (let i = 0; i < BOARD_SIZE; i++) {
+    board[i] = new Array(BOARD_SIZE);
     for (let j = 0; j < BOARD_SIZE; j++) {
       switch (j) {
         case 0:
           switch (i) {
-            case 0 || 7:
+            case 0:
               board[i][j] = {
+                id: i * BOARD_SIZE + j,
                 position: { x: i, y: j },
-                piece: new Rook(PlayerColor.Black)
+                piece: new Rook(PlayerColor.Black),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
               };
               break;
 
-            case 1 || 6:
+            case 1:
               board[i][j] = {
+                id: i * BOARD_SIZE + j,
                 position: { x: i, y: j },
-                piece: new Knight(PlayerColor.Black)
+                piece: new Knight(PlayerColor.Black),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
               };
               break;
 
-            case 2 || 5:
+            case 2:
               board[i][j] = {
+                id: i * BOARD_SIZE + j,
                 position: { x: i, y: j },
-                piece: new Bishop(PlayerColor.Black)
+                piece: new Bishop(PlayerColor.Black),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
               };
               break;
 
             case 3:
               board[i][j] = {
+                id: i * BOARD_SIZE + j,
                 position: { x: i, y: j },
-                piece: new King(PlayerColor.Black)
+                piece: new King(PlayerColor.Black),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
               };
               break;
 
             case 4:
               board[i][j] = {
+                id: i * BOARD_SIZE + j,
                 position: { x: i, y: j },
-                piece: new Queen(PlayerColor.Black)
+                piece: new Queen(PlayerColor.Black),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
+              };
+              break;
+            case 5:
+              board[i][j] = {
+                id: i * BOARD_SIZE + j,
+                position: { x: i, y: j },
+                piece: new Bishop(PlayerColor.Black),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
+              };
+              break;
+
+            case 6:
+              board[i][j] = {
+                id: i * BOARD_SIZE + j,
+                position: { x: i, y: j },
+                piece: new Knight(PlayerColor.Black),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
+              };
+              break;
+
+            case 7:
+              board[i][j] = {
+                id: i * BOARD_SIZE + j,
+                position: { x: i, y: j },
+                piece: new Rook(PlayerColor.Black),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
               };
               break;
 
@@ -59,52 +96,93 @@ export function createBoard(): BoardTile[][] {
 
         case 1:
           board[i][j] = {
+            id: i * BOARD_SIZE + j,
             position: { x: i, y: j },
-            piece: new Pawn(PlayerColor.Black)
+            piece: new Pawn(PlayerColor.Black),
+            isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
           };
           break;
 
         case 6:
           board[i][j] = {
+            id: i * BOARD_SIZE + j,
             position: { x: i, y: j },
-            piece: new Pawn(PlayerColor.White)
+            piece: new Pawn(PlayerColor.White),
+            isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
           };
           break;
 
         case 7:
           switch (i) {
-            case 0 || 7:
+            case 0:
               board[i][j] = {
+                id: i * BOARD_SIZE + j,
                 position: { x: i, y: j },
-                piece: new Rook(PlayerColor.White)
+                piece: new Rook(PlayerColor.White),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
               };
               break;
 
-            case 1 || 6:
+            case 1:
               board[i][j] = {
+                id: i * BOARD_SIZE + j,
                 position: { x: i, y: j },
-                piece: new Knight(PlayerColor.White)
+                piece: new Knight(PlayerColor.White),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
               };
               break;
 
-            case 2 || 5:
+            case 2:
               board[i][j] = {
+                id: i * BOARD_SIZE + j,
                 position: { x: i, y: j },
-                piece: new Bishop(PlayerColor.White)
+                piece: new Bishop(PlayerColor.White),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
               };
               break;
 
             case 3:
               board[i][j] = {
+                id: i * BOARD_SIZE + j,
                 position: { x: i, y: j },
-                piece: new King(PlayerColor.White)
+                piece: new King(PlayerColor.White),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
               };
               break;
 
             case 4:
               board[i][j] = {
+                id: i * BOARD_SIZE + j,
                 position: { x: i, y: j },
-                piece: new Queen(PlayerColor.White)
+                piece: new Queen(PlayerColor.White),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
+              };
+              break;
+
+            case 5:
+              board[i][j] = {
+                id: i * BOARD_SIZE + j,
+                position: { x: i, y: j },
+                piece: new Bishop(PlayerColor.White),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
+              };
+              break;
+
+            case 6:
+              board[i][j] = {
+                id: i * BOARD_SIZE + j,
+                position: { x: i, y: j },
+                piece: new Knight(PlayerColor.White),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
+              };
+              break;
+
+            case 7:
+              board[i][j] = {
+                id: i * BOARD_SIZE + j,
+                position: { x: i, y: j },
+                piece: new Rook(PlayerColor.White),
+                isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
               };
               break;
 
@@ -114,7 +192,12 @@ export function createBoard(): BoardTile[][] {
           break;
 
         default:
-          board[i][j] = { position: { x: i, y: j }, piece: null };
+          board[i][j] = {
+            id: i * BOARD_SIZE + j,
+            position: { x: i, y: j },
+            piece: null,
+            isBlack: i % 2 === 0 ? j % 2 !== 0 : j % 2 === 0
+          };
           break;
       }
     }

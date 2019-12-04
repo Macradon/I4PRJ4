@@ -2,6 +2,7 @@ import { ChessPiece, PlayerColor } from "../chess-piece";
 import { BoardPosition } from "../board-position";
 import { BoardTile } from "../board-tile";
 import { availableMovesInDirection, Direction } from "../utils/piece-utils";
+import { URL_QUEEN_BLACK, URL_QUEEN_WHITE } from "../utils/urls";
 
 export class Queen implements ChessPiece {
   playerColor: PlayerColor;
@@ -18,30 +19,30 @@ export class Queen implements ChessPiece {
     position: BoardPosition,
     boardState: BoardTile[][]
   ): BoardTile[] {
-    const result: BoardTile[] = [];
+    let result: BoardTile[] = [];
 
-    result.concat(
+    result = result.concat(
       availableMovesInDirection(position, Direction.NORTH, boardState)
     );
-    result.concat(
+    result = result.concat(
       availableMovesInDirection(position, Direction.NORTHEAST, boardState)
     );
-    result.concat(
+    result = result.concat(
       availableMovesInDirection(position, Direction.EAST, boardState)
     );
-    result.concat(
+    result = result.concat(
       availableMovesInDirection(position, Direction.SOUTHEAST, boardState)
     );
-    result.concat(
+    result = result.concat(
       availableMovesInDirection(position, Direction.SOUTH, boardState)
     );
-    result.concat(
+    result = result.concat(
       availableMovesInDirection(position, Direction.SOUTHWEST, boardState)
     );
-    result.concat(
+    result = result.concat(
       availableMovesInDirection(position, Direction.WEST, boardState)
     );
-    result.concat(
+    result = result.concat(
       availableMovesInDirection(position, Direction.NORTHWEST, boardState)
     );
 

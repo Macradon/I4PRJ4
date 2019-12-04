@@ -3,6 +3,7 @@ import { BoardPosition } from "../board-position";
 import { BoardTile } from "../board-tile";
 import { filterPossibleMoves } from "../utils/piece-utils";
 import { BOARD_SIZE } from "../utils/game-utils";
+import { URL_PAWN_BLACK, URL_PAWN_WHITE } from "../utils/urls";
 
 export class Pawn implements ChessPiece {
   playerColor: PlayerColor;

@@ -1,1 +1,5 @@
-<p>board-tile works!</p>
+<div class="tile black-back" (click)="onSelect()">
+  <div *ngIf="tile.piece">
+    <img src="{{ tile.piece.pictureURL }} " class="image" />
+  </div>
+</div>

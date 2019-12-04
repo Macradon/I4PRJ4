@@ -2,6 +2,7 @@ import { ChessPiece, PlayerColor } from "../chess-piece";
 import { BoardPosition } from "../board-position";
 import { BoardTile } from "../board-tile";
 import { availableMovesInDirection, Direction } from "../utils/piece-utils";
+import { URL_BISHOP_BLACK, URL_BISHOP_WHITE } from "../utils/urls";
 
 export class Bishop implements ChessPiece {
   playerColor: PlayerColor;
@@ -18,18 +19,18 @@ export class Bishop implements ChessPiece {
     position: BoardPosition,
     boardState: BoardTile[][]
   ): BoardTile[] {
-    const result: BoardTile[] = [];
+    let result: BoardTile[] = [];
 
-    result.concat(
+    result = result.concat(
       availableMovesInDirection(position, Direction.NORTHEAST, boardState)
     );
-    result.concat(
+    result = result.concat(
       availableMovesInDirection(position, Direction.SOUTHEAST, boardState)
     );
-    result.concat(
+    result = result.concat(
       availableMovesInDirection(position, Direction.SOUTHWEST, boardState)
     );
-    result.concat(
+    result = result.concat(
       availableMovesInDirection(position, Direction.NORTHWEST, boardState)
     );
 

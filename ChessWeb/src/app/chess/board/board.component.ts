@@ -1,21 +1,26 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { BoardTile } from "../models/board-tile";
-import { createBoard } from "../models/utils/game-utils";
 
 @Component({
   selector: "app-board",
   templateUrl: "./board.component.html",
   styleUrls: ["./board.component.sass"]
 })
-export class BoardComponent implements OnInit {
-  private letterBorder: string[] = [];
-  private numberBorder: number[] = [];
+export class BoardComponent {
+  public letterBorder: string[] = ["A", "B", "C", "D", "E", "F", "G", "H"];
+  public numberBorder: number[] = [8, 7, 6, 5, 4, 3, 2, 1];
 
+  @Input()
   public board: BoardTile[][] = [];
+  @Input()
+  public possibleMoves: BoardTile[] = [];
+  @Input()
+  public selectedTile: BoardTile = null;
 
-  constructor() {
-    this.board = createBoard();
+  @Output()
+  public tileSelect: EventEmitter<BoardTile> = new EventEmitter<BoardTile>();
+
+  public onTileSelect(tile: BoardTile) {
+    this.tileSelect.emit(tile);
   }
-
-  ngOnInit() {}
 }
