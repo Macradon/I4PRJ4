@@ -1,11 +1,11 @@
 <div class="card-container">
-    <div class="card">
+    <div class="card" *ngIf = "this.user">
         <span>Name: {{this.user.firstName}} {{this.user.lastName}}</span>
         <span>E-mail: {{this.user.Username}}</span>
         <span>Games played: {{this.user.gamesPlayed}}</span>
         <span>Games won: {{this.user.gamesWon}}/{{this.user.gamesPlayed}}</span>
-        <span>Best time: {{this.user.bestTime}}</span>
-        <span>Average number of moves: {{this.user.avgMovesNumber}}</span>
+        <span>Best time: {{this.user.bestTime}} seconds</span>
+        <span>Victory by least moves: {{this.user.avgMovesNumber}}</span>
     </div>
 </div>
         

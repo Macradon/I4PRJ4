@@ -45,9 +45,11 @@ export class SignInComponent implements OnInit {
       if (res) {
         localStorage.setItem('token', res.token.refreshToken.refreshToken);
         localStorage.setItem('username', res.firstName);
+        localStorage.setItem('email', res.Username);
         localStorage.setItem('userId', res.Id);        
         this.service.user = res;
         this.router.navigate(['']);
+        console.log(localStorage)
       }
     }, (err) => {
       console.log(err);

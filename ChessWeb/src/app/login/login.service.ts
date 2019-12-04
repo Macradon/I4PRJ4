@@ -33,14 +33,23 @@ export class LoginService {
 
   
   logout(data: any): Observable<any> {
-    return this.http.post(`${this.uri}/logout?token=${data}`, data)
+    console.log("sending this", data)
+    return this.http.post(`${this.uri}/logout`,  {
+      Username: data.Username,
+      firstName: data.firstName,
+      lastName: data.lastName,  
+      password: data.password,   
+      gamesPlayed: data.gamesPlayed,
+      gamesWon: data.gamesWon,
+      bestTime: data.bestTime,
+      avgMovesNumber: data.avgMovesNumber, 
+      token: data.token,
+      Id: data.Id
+    })
     .pipe(
       tap(_ => {  
         this.isLoggedIn.emit(false);
-        this.loggedInStatus = false;
-        localStorage.removeItem('token');  
-        localStorage.removeItem('username');
-        localStorage.removeItem('userId');       
+        this.loggedInStatus = false;      
       })
     ); 
   }   
@@ -57,5 +66,9 @@ export class LoginService {
 
   getUsers() {
     return this.http.get(`${this.uri}/users`);
+  }
+
+  getUser(data: string){
+    return this.http.get(`${this.uri}/user?email=${data}`);
   }
 }

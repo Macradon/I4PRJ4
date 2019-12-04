@@ -8,6 +8,8 @@ import { ChessAI } from "../ai/chess-ai";
 import { RandomAI } from "../ai/random-ai";
 import { HighScoresService } from 'src/app/high-scores/high-scores.service';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/login/login.service';
+import { User } from 'src/app/login/user';
 
 @Component({
   selector: "app-game",
@@ -27,11 +29,18 @@ export class GameComponent {
   public turnsTaken = 0;
   time: number = 0;
   interval;
+  currentUser: User;
 
-  constructor(private router: Router, private service: HighScoresService) {
+  constructor(private router: Router, private service: HighScoresService, private loginService: LoginService) {
     this.board = createBoard();
     this.ai = new RandomAI();
     this.startTimer();
+    this.loginService
+    .getUser(localStorage.getItem('email'))     
+    .subscribe((data: User) => {
+      this.currentUser = data;    
+      console.log(this.currentUser)
+  }); 
 
     for (let i = 0; i < BOARD_SIZE; i++) {
       this.whitePieces.push(this.board[i][6]);
@@ -84,7 +93,7 @@ export class GameComponent {
       if (to.piece instanceof King) {
         this.gameOver = true;
         this.youWin = this.playerTurn ? true : false;
-        this.service.createHighScore(this.turnsTaken, this.youWin, this.time)
+        this.service.createHighScore(this.turnsTaken, this.youWin, this.time, this.currentUser)
           .subscribe(res => {
             this.router.navigate(['highscores']);
           }, (err) => {

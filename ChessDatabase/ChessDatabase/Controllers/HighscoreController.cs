@@ -44,15 +44,15 @@ namespace ChessDatabase.Controllers
             User user = _userService.Get(highscore.username);
             
             user.gamesPlayed++;
-            if (highscore.won) user.gamesWon++;
-            //user.bestTime skal laves om til en int
-            //if (highscore.time < user.bestTime) user.bestTime = highscore.time;
-            if (user.avgMovesNumber == 0) user.avgMovesNumber = highscore.numberOfMoves;
-            else  user.avgMovesNumber = (highscore.numberOfMoves + user.avgMovesNumber) / 2;
-            _userService.Update(user.Username, user);
-            _highscoreService.Create(newScore);
-
-            return Ok(newScore);
+            if(highscore.won)
+            { 
+                user.gamesWon++;
+                if (highscore.time < user.bestTime || user.bestTime == 0) user.bestTime = highscore.time;
+                if (highscore.numberOfMoves < user.avgMovesNumber || user.avgMovesNumber == 0) user.avgMovesNumber = highscore.numberOfMoves;
+                _userService.Update(user.Username, user);
+                _highscoreService.Create(newScore);
+            }
+           return Ok(newScore);
         }
 
         [HttpGet("")]
