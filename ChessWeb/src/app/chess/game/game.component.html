@@ -1,7 +1,5 @@
 <div>
   <app-board [board]="board" class="board" (tileSelect)="onTileSelect($event)">
   </app-board>
-</div>
-<div *ngIf="selectedTile">
-  X = {{ selectedTile.position.x }} Y= {{ selectedTile.position.y }}
+  <div style="color: white;">Turns taken: {{ turnsTaken }}</div>
 </div>

@@ -74,6 +74,7 @@ namespace ChessDatabase
 
             services.AddSingleton<UserService>();
             services.AddSingleton<TokenService>();
+            services.AddSingleton<HighscoreService>();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options => options.UseMemberCasing());

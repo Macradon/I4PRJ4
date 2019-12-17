@@ -9,13 +9,12 @@ import { ProfileComponent } from './login/profile/profile.component';
 import { GameComponent } from "./chess/game/game.component";
 
 const routes: Routes = [
-  { path: '', component: HighScoresComponent },
-  { path: 'menu',  canActivate: [AuthGuard], component: MainPageComponent},
+  { path: 'highscores', component: HighScoresComponent },
+  { path: '',  canActivate: [AuthGuard], component: MainPageComponent},
   { path: 'login', component: SignInComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'myprofile', canActivate: [AuthGuard], component: ProfileComponent},
-  { path: "game", component: GameComponent },
-  // når login kræves først{ path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: "game", canActivate: [AuthGuard], component: GameComponent }
 ];
 
 @NgModule({

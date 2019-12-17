@@ -14,21 +14,25 @@ export class AppComponent {
   loginStatus = false;
   username: string;
   token: string;
-  users: User[];
   currentUser: User;
+  user: string;
+  email: string;
 
   constructor( private router: Router, 
     private service: LoginService) {}
 
     ngOnInit() {
+    console.log(localStorage)
+    if (localStorage !== null) {
       this.token = localStorage.getItem('token');
       this.username = localStorage.getItem('username');
-      this.service
-      .getUsers()      
-      .subscribe((data:User[]) => {
-        this.users = data;        
-    }); 
-     
+        this.service
+        .getUser(localStorage.getItem('email'))     
+        .subscribe((data:User) => {
+          this.currentUser = data;    
+      }); 
+    };    
+    
     if(this.token) {
       this.loginStatus = true;
     } else {
@@ -37,7 +41,7 @@ export class AppComponent {
   
     this.service.isLoggedIn.subscribe((status: any) => {
       if (status === true) {
-        this.username = localStorage.getItem('user');
+        this.username = localStorage.getItem('username');
         this.loginStatus = true;      
       } else {
         this.loginStatus = false;
@@ -45,15 +49,19 @@ export class AppComponent {
     });
   }
 
-  logout() {
-   this.currentUser = this.users.find(x => x.Id == localStorage.getItem('userId'));
+  logout() {   
+   this.service
+      .getUser(localStorage.getItem('email'))     
+      .subscribe((data: User) => {
+        this.currentUser = data;    
+    }); 
+    console.log("this user", this.currentUser)
+    localStorage.clear();
+    this.router.navigate(['login']);
+    this.loginStatus = false;
     this.service.logout(this.currentUser)
       .subscribe(res => {
-        this.loginStatus = false;
-        this.router.navigate(['login']);
-      }, (err) => {
-        console.log(err);
-        alert(err.error);
-    });       
+        console.log(res)        
+      });      
   }
 }

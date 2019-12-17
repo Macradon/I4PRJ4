@@ -15,7 +15,7 @@ namespace ChessDatabase.Models
         public string username { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
-        public string time { get; set; }
+        public int time { get; set; }
         public bool won { get; set; }
         public int numberOfMoves { get; set; }
     }

@@ -16,12 +16,12 @@ namespace ChessDatabase.Controllers
     [ApiController]
 
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class HighscoreController : ControllerBase
+    public class HighscoresController : ControllerBase
     {
         private readonly HighscoreService _highscoreService;
         private readonly UserService _userService;
 
-        public HighscoreController(UserService userService, HighscoreService highscoreService)
+        public HighscoresController(UserService userService, HighscoreService highscoreService)
         {
 
             _userService = userService;
@@ -41,12 +41,21 @@ namespace ChessDatabase.Controllers
                 numberOfMoves = highscore.numberOfMoves
             };
 
-            _highscoreService.Create(newScore);
-
-            return Ok(newScore);
+            User user = _userService.Get(highscore.username);
+            
+            user.gamesPlayed++;
+            if(highscore.won)
+            { 
+                user.gamesWon++;
+                if (highscore.time < user.bestTime || user.bestTime == 0) user.bestTime = highscore.time;
+                if (highscore.numberOfMoves < user.avgMovesNumber || user.avgMovesNumber == 0) user.avgMovesNumber = highscore.numberOfMoves;
+                _userService.Update(user.Username, user);
+                _highscoreService.Create(newScore);
+            }
+           return Ok(newScore);
         }
 
-        [HttpGet("highscores")]
+        [HttpGet("")]
         public ActionResult highscores()
         {
             var scoreList = new List<Highscore>();

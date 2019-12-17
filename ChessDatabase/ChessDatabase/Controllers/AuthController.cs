@@ -91,6 +91,13 @@ namespace ChessDatabase.Controllers
             return Ok(userList);
         }
 
+        [HttpGet("user")]
+        public ActionResult user(string email)
+        {
+            var findUser = _userService.Get(email);
+            return Ok(findUser);
+        }
+
         private bool IsExistingUsername(string username)
         {
             if (username != _userService.Get(username).Username)

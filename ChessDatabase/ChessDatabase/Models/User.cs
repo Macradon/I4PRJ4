@@ -20,7 +20,7 @@ namespace ChessDatabase.Models
         public string firstName { get; set; }
         public string lastName { get; set; }
         public int gamesPlayed { get; set; }
-        public string bestTime { get; set; }
+        public int bestTime { get; set; }
         public int gamesWon { get; set; }
         public int avgMovesNumber { get; set; }
         public JsonWebToken token { get; set; }

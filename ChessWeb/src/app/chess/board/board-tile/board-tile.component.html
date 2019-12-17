@@ -4,7 +4,7 @@
   [class.selected]="selected"
   [class.movable]="moveable"
   (click)="onSelect()"
-  fxLayoutAlign="center"
+  fxLayoutAlign="center start"
 >
   <div *ngIf="tile.piece">
     <img src="{{ tile.piece.pictureURL }} " class="image" />
