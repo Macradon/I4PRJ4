@@ -60,7 +60,7 @@ export class GameComponent {
   public onTileSelect(tile: BoardTile) {
     if (this.playerTurn && !this.gameOver) {
       if (!this.selectedTile) {
-        if (tile.piece) {
+        if (tile.piece.playerColor === PlayerColor.White) {
           this.selectedTile = tile;
 
           this.availableMoves = tile.piece.getAvailableMoves(
