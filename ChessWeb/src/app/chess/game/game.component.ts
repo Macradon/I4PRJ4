@@ -60,7 +60,7 @@ export class GameComponent {
   public onTileSelect(tile: BoardTile) {
     if (this.playerTurn && !this.gameOver) {
       if (!this.selectedTile) {
-        if (tile.piece.playerColor === PlayerColor.White) {
+        if (tile.piece) {
           this.selectedTile = tile;
 
           this.availableMoves = tile.piece.getAvailableMoves(
@@ -71,7 +71,7 @@ export class GameComponent {
       } else {
         if (tile.id === this.selectedTile.id) {
           this.selectedTile = null;
-          this.availableMoves = null;
+          this.availableMoves = [];
         } else {
           const validMove = this.availableMoves.filter(
             move => move.id === tile.id
