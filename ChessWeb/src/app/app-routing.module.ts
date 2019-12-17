@@ -11,7 +11,7 @@ import { GameComponent } from "./chess/game/game.component";
 const routes: Routes = [
   { path: "highscores", component: HighScoresComponent },
   { path: "", canActivate: [AuthGuard], component: MainPageComponent },
-  { path: "login", component: GameComponent },
+  { path: "login", component: SignInComponent },
   { path: "register", component: RegisterComponent },
   { path: "myprofile", canActivate: [AuthGuard], component: ProfileComponent },
   { path: "game", canActivate: [AuthGuard], component: GameComponent }
