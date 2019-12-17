@@ -19,8 +19,6 @@ import { HighScoresComponent } from './high-scores/high-scores.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChessModule } from "./chess/chess.module";
 
-import { MainPageModule } from './main-page/main-page.module';
-
 @NgModule({
   declarations: [
     AppComponent,

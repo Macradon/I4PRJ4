@@ -69,17 +69,18 @@ namespace ChessDatabase.Controllers
                     _userService.Update(usertest.Username, user);
                     return Ok(user);
                 }
-                else { return BadRequest(); }
+                else return BadRequest();
             }
-            else { return BadRequest(); }
+            else return NotFound("User is not in the system"); 
         }
 
         [HttpPost("logout")]
-        public ActionResult logout(User user)
+        public ActionResult logout(string Username, string token)
         {
-            _tokenService.Delete(user.token.refreshToken.refreshToken);            
+            _tokenService.Delete(token);
+            User user = _userService.Get(Username);
             user.token = null;
-            _userService.Update(user.Username, user);
+            _userService.Update(Username, user);
             return Ok("Token removed");
         }
 

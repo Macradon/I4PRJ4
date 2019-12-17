@@ -58,8 +58,9 @@ namespace ChessDatabase.Controllers
         [HttpGet("")]
         public ActionResult highscores()
         {
-            var scoreList = new List<Highscore>();
-            scoreList = _highscoreService.GetAll();
+            var highscoreList = new List<Highscore>();
+            highscoreList = _highscoreService.GetAll();
+            var scoreList = highscoreList.OrderBy(n => n.numberOfMoves).ToArray().Take<Highscore>(5);
             return Ok(scoreList);
         }
 

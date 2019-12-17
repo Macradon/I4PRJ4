@@ -10,6 +10,7 @@ import { HighScoresService } from 'src/app/high-scores/high-scores.service';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login/login.service';
 import { User } from 'src/app/login/user';
+import { ToastService } from './../../toast/toast.service';
 
 @Component({
   selector: "app-game",
@@ -31,7 +32,7 @@ export class GameComponent {
   interval;
   currentUser: User;
 
-  constructor(private router: Router, private service: HighScoresService, private loginService: LoginService) {
+  constructor(private router: Router, private toast: ToastService, private service: HighScoresService, private loginService: LoginService) {
     this.board = createBoard();
     this.ai = new RandomAI();
     this.startTimer();
@@ -93,6 +94,8 @@ export class GameComponent {
       if (to.piece instanceof King) {
         this.gameOver = true;
         this.youWin = this.playerTurn ? true : false;
+        if(this.youWin == true) this.toast.success({message: "Congratulations, you win!"}, true, 10000);        
+        else this.toast.error({message: "Better luck next time :("}, true, 10000);        
         this.service.createHighScore(this.turnsTaken, this.youWin, this.time, this.currentUser)
           .subscribe(res => {
             this.router.navigate(['highscores']);

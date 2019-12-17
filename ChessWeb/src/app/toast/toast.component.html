@@ -1,1 +1,8 @@
-<p>toast works!</p>
+<div class="toast-container">
+    <div (click)="clearToast()" class="toast {{ cssClass() }}" [ngClass]="{'active': alert}">
+      <div>
+        {{ alert?.message }}
+        <a *ngFor="let link of alert?.links" routerLink="{{ link?.link }}">{{ link?.title }}</a>
+      </div>
+    </div>
+  </div>

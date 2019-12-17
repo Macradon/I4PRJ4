@@ -6,9 +6,7 @@ export interface Toast {
   
   export enum ToastType {
     Success,
-    Error,
-    Info,
-    Warning
+    Error
   }
   
   export interface Link {

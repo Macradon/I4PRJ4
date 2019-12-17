@@ -21,8 +21,7 @@ export class AppComponent {
   constructor( private router: Router, 
     private service: LoginService) {}
 
-    ngOnInit() {
-    console.log(localStorage)
+    ngOnInit() {    
     if (localStorage !== null) {
       this.token = localStorage.getItem('token');
       this.username = localStorage.getItem('username');
@@ -31,7 +30,8 @@ export class AppComponent {
         .subscribe((data:User) => {
           this.currentUser = data;    
       }); 
-    };    
+    }   
+    else this.username = this.service.user.Username.toString();
     
     if(this.token) {
       this.loginStatus = true;
@@ -50,18 +50,21 @@ export class AppComponent {
   }
 
   logout() {   
-   this.service
-      .getUser(localStorage.getItem('email'))     
-      .subscribe((data: User) => {
-        this.currentUser = data;    
-    }); 
-    console.log("this user", this.currentUser)
-    localStorage.clear();
-    this.router.navigate(['login']);
     this.loginStatus = false;
-    this.service.logout(this.currentUser)
+    localStorage.clear();
+    this.router.navigate(['login']); 
+    if(this.currentUser != null) {          
+      this.service.logout(this.currentUser.Username, this.currentUser.token.refreshToken.refreshToken)
       .subscribe(res => {
         console.log(res)        
       });      
+    }
+    else {          
+      this.service.logout(this.service.user.Username, this.service.user.token.refreshToken.refreshToken)
+      .subscribe(res => {
+        console.log(res)        
+      });      
+    }
+    
   }
 }

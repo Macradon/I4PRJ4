@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HighScoresService } from './high-scores.service';
 import { Highscore } from './highscore';
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-high-scores',
@@ -16,9 +17,7 @@ export class HighScoresComponent implements OnInit {
     this.service
       .getHighscores()     
       .subscribe((data:Highscore[]) => {
-        this.highscores = data;
-        console.log(this.highscores)        
+        this.highscores = data;    
     }); 
   }
-
 }

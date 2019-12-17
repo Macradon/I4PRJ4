@@ -1,0 +1,41 @@
+.toast-container 
+  position: relative
+  .toast 
+    position: fixed
+    top: 16px
+    left: 288px
+    right: 0
+    height: 56px
+    font-size: 18px
+    letter-spacing: 0.5px
+    text-align: left
+    color: #ffffff
+    line-height: 56px
+    text-align: center
+    transition: all 0.3s ease-in-out
+
+    &.active 
+      transition: all 0.3s ease-in-out
+      top: 72px    
+
+    a 
+      color: white
+      text-decoration: underline
+    
+
+
+.alert-success 
+  background-color: #376E56
+.alert-danger
+  background-color: rgb(143, 73, 73)
+
+
+@media (max-width: 1390px) 
+  .toast-container 
+    .toast 
+      left: 80px
+
+:host(.full-width) 
+  .toast 
+    left: 0px
+  
