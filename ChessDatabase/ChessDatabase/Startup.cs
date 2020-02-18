@@ -48,6 +48,8 @@ namespace ChessDatabase
                   .AllowCredentials());
             });
 
+            services.AddSignalR();
+
             services.AddMvc();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -100,6 +102,7 @@ namespace ChessDatabase
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChartHub>("/chart");
             });
         }
     }
