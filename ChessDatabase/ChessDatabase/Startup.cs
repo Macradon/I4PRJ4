@@ -19,6 +19,7 @@ using ChessDatabase.Interfaces;
 using Microsoft.Extensions.Options;
 using ChessDatabase.Services;
 using System.Web.Http.Cors;
+using ChessDatabase.HubConfig;
 
 namespace ChessDatabase
 {
@@ -47,6 +48,8 @@ namespace ChessDatabase
                   .AllowAnyHeader()
                   .AllowCredentials());
             });
+
+            services.AddSignalR();
 
             services.AddMvc();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -99,6 +102,7 @@ namespace ChessDatabase
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChartHub>("/chart");
             });
         }
     }
