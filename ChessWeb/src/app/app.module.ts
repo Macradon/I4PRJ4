@@ -6,6 +6,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
+import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { routing } from './app-routing.module';
@@ -31,6 +32,7 @@ import { ChessModule } from "./chess/chess.module";
   ],
   imports: [
     BrowserModule,
+    ChartsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,

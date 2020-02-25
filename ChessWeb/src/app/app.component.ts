@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from './login/login.service';
 import { User } from './login/user';
-import { map } from 'rxjs/operators'
+import { map } from 'rxjs/operators';
+import { SignalRService } from './signalR/signalR.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -19,9 +21,14 @@ export class AppComponent {
   email: string;
 
   constructor( private router: Router, 
-    private service: LoginService) {}
+    private service: LoginService, 
+    public signalRService: SignalRService, 
+    private http: HttpClient) {}
 
-    ngOnInit() {    
+    ngOnInit() {  
+    this.signalRService.startConnection();
+    this.signalRService.addTransferChartDataListener();   
+    this.startHttpRequest();  
     if (localStorage !== null) {
       this.token = localStorage.getItem('token');
       this.username = localStorage.getItem('username');
@@ -66,5 +73,11 @@ export class AppComponent {
       });      
     }
     
+  }
+  private startHttpRequest = () => {
+    this.http.get('https://localhost:5001/api/chart')
+      .subscribe(res => {
+        console.log(res);
+      })
   }
 }
