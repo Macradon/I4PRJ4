@@ -119,15 +119,7 @@ export class GameComponent {
             this.time,
             this.currentUser
           )
-          .subscribe(
-            res => {
-              this.router.navigate(["highscores"]);
-            },
-            err => {
-              console.log(err);
-              alert(err.error);
-            }
-          );
+        this.router.navigate(['/highscores']);
       } else {
         if (to.piece.playerColor === PlayerColor.White) {
           this.whitePieces = this.removePiece(to, this.whitePieces);

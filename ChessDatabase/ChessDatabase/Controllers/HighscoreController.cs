@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ChessDatabase.HubConfig;
+using Microsoft.AspNetCore.SignalR;
 using ChessDatabase.Models;
 using ChessDatabase.Services;
 using System.Web.Http.Cors;
@@ -16,21 +18,25 @@ namespace ChessDatabase.Controllers
     [ApiController]
 
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+
     public class HighscoresController : ControllerBase
     {
         private readonly HighscoreService _highscoreService;
         private readonly UserService _userService;
+        private IHubContext<ChartHub> _hub;
 
-        public HighscoresController(UserService userService, HighscoreService highscoreService)
+        public HighscoresController(UserService userService, HighscoreService highscoreService, IHubContext<ChartHub> hub)
         {
 
             _userService = userService;
             _highscoreService = highscoreService;
+            _hub = hub;
         }
 
         [HttpPost("create")]
         public ActionResult CreateHighscore(Highscore highscore)
         {
+            
             Highscore newScore = new Highscore()
             {
                 username = highscore.username,
@@ -52,16 +58,21 @@ namespace ChessDatabase.Controllers
                 _userService.Update(user.Username, user);
                 _highscoreService.Create(newScore);
             }
-           return Ok(newScore);
+           return Ok(new { Message = "Highscore created" });
         }
 
+
+        //Not necessary
         [HttpGet("")]
         public ActionResult highscores()
         {
             var highscoreList = new List<Highscore>();
             highscoreList = _highscoreService.GetAll();
             var scoreList = highscoreList.OrderBy(n => n.numberOfMoves).ToArray().Take<Highscore>(5);
+            _hub.Clients.All.SendAsync("transferhighscores", scoreList);
             return Ok(scoreList);
+
+            
         }
 
     }

@@ -35,18 +35,22 @@ namespace ChessDatabase.Controllers
         [HttpPost("register")]
         public ActionResult Register(User user)
         {
-            User newUserRegistration = new User()
+            if (!IsExistingUsername(user.Username))
             {
-                firstName = user.firstName,
-                lastName = user.lastName,
-                Username = user.Username,
-                password = user.password
-            };
-            newUserRegistration.password = _passHash.HashPassword(newUserRegistration, newUserRegistration.password);
+                User newUserRegistration = new User()
+                {
+                    firstName = user.firstName,
+                    lastName = user.lastName,
+                    Username = user.Username,
+                    password = user.password
+                };
+                newUserRegistration.password = _passHash.HashPassword(newUserRegistration, newUserRegistration.password);
 
-            _userService.Create(newUserRegistration);
+                _userService.Create(newUserRegistration);
 
-            return Ok(newUserRegistration);
+                return Ok(newUserRegistration);
+            }
+            else return Conflict("This e-mail is already in use");
         }
 
         [HttpPost("login")]
@@ -101,14 +105,12 @@ namespace ChessDatabase.Controllers
 
         private bool IsExistingUsername(string username)
         {
-            if (username != _userService.Get(username).Username)
+            var user = _userService.Get(username);
+            if (user == null)
             {
                 return false;
-            }else if ( username == _userService.Get(username).Username)
-            {
-                return true;
             }
-            else { return false; }
+            return true;
         }
 
         private bool IsCorrectPassword(string username, string password)

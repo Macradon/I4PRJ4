@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from './login/login.service';
 import { User } from './login/user';
@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ChessWeb';
   loginStatus = false;
   username: string;
@@ -19,7 +19,7 @@ export class AppComponent {
   currentUser: User;
   user: string;
   email: string;
-
+  
   constructor( private router: Router, 
     private service: LoginService, 
     public signalRService: SignalRService, 
@@ -27,8 +27,8 @@ export class AppComponent {
 
     ngOnInit() {  
     this.signalRService.startConnection();
-    this.signalRService.addTransferChartDataListener();   
-    this.startHttpRequest();  
+    this.signalRService.addTransferChartDataListener();
+
     if (localStorage !== null) {
       this.token = localStorage.getItem('token');
       this.username = localStorage.getItem('username');
@@ -74,10 +74,5 @@ export class AppComponent {
     }
     
   }
-  private startHttpRequest = () => {
-    this.http.get('https://localhost:5001/api/chart')
-      .subscribe(res => {
-        console.log(res);
-      })
-  }
+
 }

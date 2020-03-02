@@ -2,7 +2,7 @@ export class Highscore {
     username: String;
     firstName: String;
     lastName: String;
-    time: String;
+    time: Number;
     won: Boolean;
     numberOfMoves: Number;
 }

@@ -32,17 +32,6 @@
   <button *ngIf="loginStatus === true" mat-button (click)="logout()">Sign out</button>
   <button *ngIf="loginStatus === false"><a routerLink="login" class="nav-link" style = "color: white;" routerLinkActive="active">Sign in</a></button>
 </div>
-<!--signal R visualization-->
-<div style="display: block" *ngIf='signalRService.data'>
-  <canvas baseChart
-          [datasets]="signalRService.data"
-          [labels]="chartLabels"
-          [options]="chartOptions"
-          [legend]="chartLegend"
-          [chartType]="chartType"
-          [colors]="colors"
-          (chartClick)="chartClicked($event)"></canvas>
-</div>
 
 <div class="body-container">
   <router-outlet></router-outlet>

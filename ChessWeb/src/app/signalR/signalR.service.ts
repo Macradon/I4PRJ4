@@ -1,29 +1,45 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
-import { ChartModel } from './chart-model';
+import { Highscore } from '../high-scores/highscore';
  
 @Injectable({
   providedIn: 'root'
 })
 export class SignalRService {
-  public data: ChartModel[];
+  public broadcasted: Highscore;
+  public highscore: Highscore;
+  public highscores: Highscore[];
  
-private hubConnection: signalR.HubConnection
+  private hubConnection: signalR.HubConnection
  
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-                            .withUrl('https://localhost:5001/chart')
-                            .build();
+      .withUrl('https://localhost:44355/chart')                            
+      .build();
  
     this.hubConnection
       .start()
       .then(() => console.log('Connection started'))
       .catch(err => console.log('Error while starting connection: ' + err))
   }
- 
+
+
+  public sendHighscore(highscore: Highscore){
+    this.hubConnection.invoke('broadcasthighscore', highscore)
+    .catch(err => console.error(err));
+    console.log(highscore)
+  }
+
+  public addBroadcastHighscoreListener = () => {
+    this.hubConnection.on('broadcasthighscore', (data) => {
+      this.broadcasted = data;
+      console.log("broadcasted", this.broadcasted)
+    })
+  }
+
   public addTransferChartDataListener = () => {
-    this.hubConnection.on('transferchartdata', (data) => {
-      this.data = data;
+    this.hubConnection.on('transferhighscores', (data) => {
+      this.highscores = data;
       console.log(data);
     });
   }
