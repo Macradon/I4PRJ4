@@ -6,10 +6,11 @@ import { PlayerColor } from "../models/chess-piece";
 import { King } from "../models/pieces/king";
 import { ChessAI } from "../ai/chess-ai";
 import { RandomAI } from "../ai/random-ai";
-import { HighScoresService } from 'src/app/high-scores/high-scores.service';
-import { Router } from '@angular/router';
-import { LoginService } from 'src/app/login/login.service';
-import { User } from 'src/app/login/user';
+import { HighScoresService } from "src/app/high-scores/high-scores.service";
+import { Router } from "@angular/router";
+import { LoginService } from "src/app/login/login.service";
+import { User } from "src/app/login/user";
+import { ToastService } from "./../../toast/toast.service";
 
 @Component({
   selector: "app-game",
@@ -19,7 +20,7 @@ import { User } from 'src/app/login/user';
 export class GameComponent {
   public board: BoardTile[][] = [];
   public selectedTile: BoardTile = null;
-  public availableMoves: BoardTile[] = null;
+  public availableMoves: BoardTile[] = [];
   public gameOver = false;
   public youWin = false;
   private playerTurn = true;
@@ -31,16 +32,21 @@ export class GameComponent {
   interval;
   currentUser: User;
 
-  constructor(private router: Router, private service: HighScoresService, private loginService: LoginService) {
+  constructor(
+    private router: Router,
+    private toast: ToastService,
+    private service: HighScoresService,
+    private loginService: LoginService
+  ) {
     this.board = createBoard();
     this.ai = new RandomAI();
     this.startTimer();
     this.loginService
-    .getUser(localStorage.getItem('email'))     
-    .subscribe((data: User) => {
-      this.currentUser = data;    
-      console.log(this.currentUser)
-  }); 
+      .getUser(localStorage.getItem("email"))
+      .subscribe((data: User) => {
+        this.currentUser = data;
+        console.log(this.currentUser);
+      });
 
     for (let i = 0; i < BOARD_SIZE; i++) {
       this.whitePieces.push(this.board[i][6]);
@@ -54,7 +60,7 @@ export class GameComponent {
   public onTileSelect(tile: BoardTile) {
     if (this.playerTurn && !this.gameOver) {
       if (!this.selectedTile) {
-        if (tile.piece) {
+        if (tile.piece.playerColor === PlayerColor.White) {
           this.selectedTile = tile;
 
           this.availableMoves = tile.piece.getAvailableMoves(
@@ -65,7 +71,7 @@ export class GameComponent {
       } else {
         if (tile.id === this.selectedTile.id) {
           this.selectedTile = null;
-          this.availableMoves = null;
+          this.availableMoves = [];
         } else {
           const validMove = this.availableMoves.filter(
             move => move.id === tile.id
@@ -93,13 +99,27 @@ export class GameComponent {
       if (to.piece instanceof King) {
         this.gameOver = true;
         this.youWin = this.playerTurn ? true : false;
-        this.service.createHighScore(this.turnsTaken, this.youWin, this.time, this.currentUser)
-          .subscribe(res => {
-            this.router.navigate(['highscores']);
-          }, (err) => {
-            console.log(err);
-            alert(err.error);
-        });
+        if (this.youWin == true) {
+          this.toast.success(
+            { message: "Congratulations, you win!" },
+            true,
+            10000
+          );
+        } else {
+          this.toast.error(
+            { message: "Better luck next time :(" },
+            true,
+            10000
+          );
+        }
+        this.service
+          .createHighScore(
+            this.turnsTaken,
+            this.youWin,
+            this.time,
+            this.currentUser
+          )
+        this.router.navigate(['/highscores']);
       } else {
         if (to.piece.playerColor === PlayerColor.White) {
           this.whitePieces = this.removePiece(to, this.whitePieces);
@@ -137,11 +157,10 @@ export class GameComponent {
 
     this.movePiece(aiMove.from, aiMove.to);
   }
-  startTimer() {   
+  startTimer() {
     this.interval = setInterval(() => {
       this.time++;
-    },1000)
-  console.log("time", this.time)
+    }, 1000);
+    console.log("time", this.time);
   }
-  
 }

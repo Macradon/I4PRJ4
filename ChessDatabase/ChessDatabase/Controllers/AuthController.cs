@@ -35,18 +35,22 @@ namespace ChessDatabase.Controllers
         [HttpPost("register")]
         public ActionResult Register(User user)
         {
-            User newUserRegistration = new User()
+            if (!IsExistingUsername(user.Username))
             {
-                firstName = user.firstName,
-                lastName = user.lastName,
-                Username = user.Username,
-                password = user.password
-            };
-            newUserRegistration.password = _passHash.HashPassword(newUserRegistration, newUserRegistration.password);
+                User newUserRegistration = new User()
+                {
+                    firstName = user.firstName,
+                    lastName = user.lastName,
+                    Username = user.Username,
+                    password = user.password
+                };
+                newUserRegistration.password = _passHash.HashPassword(newUserRegistration, newUserRegistration.password);
 
-            _userService.Create(newUserRegistration);
+                _userService.Create(newUserRegistration);
 
-            return Ok(newUserRegistration);
+                return Ok(newUserRegistration);
+            }
+            else return Conflict("This e-mail is already in use");
         }
 
         [HttpPost("login")]
@@ -69,17 +73,18 @@ namespace ChessDatabase.Controllers
                     _userService.Update(usertest.Username, user);
                     return Ok(user);
                 }
-                else { return BadRequest(); }
+                else return BadRequest();
             }
-            else { return BadRequest(); }
+            else return NotFound("User is not in the system"); 
         }
 
         [HttpPost("logout")]
-        public ActionResult logout(User user)
+        public ActionResult logout(string Username, string token)
         {
-            _tokenService.Delete(user.token.refreshToken.refreshToken);            
+            _tokenService.Delete(token);
+            User user = _userService.Get(Username);
             user.token = null;
-            _userService.Update(user.Username, user);
+            _userService.Update(Username, user);
             return Ok("Token removed");
         }
 
@@ -100,14 +105,12 @@ namespace ChessDatabase.Controllers
 
         private bool IsExistingUsername(string username)
         {
-            if (username != _userService.Get(username).Username)
+            var user = _userService.Get(username);
+            if (user == null)
             {
                 return false;
-            }else if ( username == _userService.Get(username).Username)
-            {
-                return true;
             }
-            else { return false; }
+            return true;
         }
 
         private bool IsCorrectPassword(string username, string password)

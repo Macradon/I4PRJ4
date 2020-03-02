@@ -3,6 +3,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { FormGroup, FormBuilder, Validators, NgForm, FormControl, FormGroupDirective } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../login.service';
+import { User } from '../user';
 
 export class ErrorMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -25,6 +26,8 @@ export class PasswordMatcher implements ErrorStateMatcher {
 })
 export class RegisterComponent implements OnInit {
 
+  userList: User[];
+  mailList: String[];
   registerForm: FormGroup;
   firstName = '';
   lastName = '';

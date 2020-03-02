@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from './login/login.service';
 import { User } from './login/user';
-import { map } from 'rxjs/operators'
+import { map } from 'rxjs/operators';
+import { SignalRService } from './signalR/signalR.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ChessWeb';
   loginStatus = false;
   username: string;
@@ -17,12 +19,16 @@ export class AppComponent {
   currentUser: User;
   user: string;
   email: string;
-
+  
   constructor( private router: Router, 
-    private service: LoginService) {}
+    private service: LoginService, 
+    public signalRService: SignalRService, 
+    private http: HttpClient) {}
 
-    ngOnInit() {
-    console.log(localStorage)
+    ngOnInit() {  
+    this.signalRService.startConnection();
+    this.signalRService.addTransferChartDataListener();
+
     if (localStorage !== null) {
       this.token = localStorage.getItem('token');
       this.username = localStorage.getItem('username');
@@ -31,7 +37,8 @@ export class AppComponent {
         .subscribe((data:User) => {
           this.currentUser = data;    
       }); 
-    };    
+    }   
+    else this.username = this.service.user.Username.toString();
     
     if(this.token) {
       this.loginStatus = true;
@@ -50,18 +57,22 @@ export class AppComponent {
   }
 
   logout() {   
-   this.service
-      .getUser(localStorage.getItem('email'))     
-      .subscribe((data: User) => {
-        this.currentUser = data;    
-    }); 
-    console.log("this user", this.currentUser)
-    localStorage.clear();
-    this.router.navigate(['login']);
     this.loginStatus = false;
-    this.service.logout(this.currentUser)
+    localStorage.clear();
+    this.router.navigate(['login']); 
+    if(this.currentUser != null) {          
+      this.service.logout(this.currentUser.Username, this.currentUser.token.refreshToken.refreshToken)
       .subscribe(res => {
         console.log(res)        
       });      
+    }
+    else {          
+      this.service.logout(this.service.user.Username, this.service.user.token.refreshToken.refreshToken)
+      .subscribe(res => {
+        console.log(res)        
+      });      
+    }
+    
   }
+
 }

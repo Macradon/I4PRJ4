@@ -32,20 +32,20 @@ export class LoginService {
   }
 
   
-  logout(data: any): Observable<any> {
-    console.log("sending this", data)
-    return this.http.post(`${this.uri}/logout`,  {
-      Username: data.Username,
-      firstName: data.firstName,
-      lastName: data.lastName,  
-      password: data.password,   
-      gamesPlayed: data.gamesPlayed,
-      gamesWon: data.gamesWon,
-      bestTime: data.bestTime,
-      avgMovesNumber: data.avgMovesNumber, 
-      token: data.token,
-      Id: data.Id
-    })
+  logout(Username: String, token: any): Observable<any> {
+    console.log("mail", Username, "token", token)
+    return this.http.post(`${this.uri}/logout?Username=${Username}&token=${token}`, Username, token) 
+      // Username: data.Username,
+      // firstName: data.firstName,
+      // lastName: data.lastName,  
+      // password: data.password,   
+      // gamesPlayed: data.gamesPlayed,
+      // gamesWon: data.gamesWon,
+      // bestTime: data.bestTime,
+      // avgMovesNumber: data.avgMovesNumber, 
+      // token: data.token,
+      // Id: data.Id
+    // )
     .pipe(
       tap(_ => {  
         this.isLoggedIn.emit(false);

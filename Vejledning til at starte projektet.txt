@@ -1,0 +1,19 @@
+Vejledning til at starte projektet
+For at teste projektet skal man have Visual Studio Code og Visual Studio 2019.
+
+Server:
+1. Åbn solution ChessDatabase.sln (i mappen ChessDatabase) i Visual Studio 2019. 
+2. Tryk på 'Start debugging'.
+3. Der åbnes nu et nyt browservindue med projektet.
+4. Vinduet skal forblive åben under test af frontend.
+Client:
+1. Åbn projektet ChessWeb i Visual Studio Code* 
+*For at gøre dette kan man trykke på Shift + højreklik inde i ChessWeb mappen og vælge 'Åbn Powershell'
+*Inde i PowerShell skal man skrive 'code .'
+*Projektet åbnes nu i Visual Studio Code
+2. Åbn terminalen i VS Code, skriv 'npm start' og tryk enter **
+Projektet åbnes i en ny browserfane. Sker dette ikke skal man selv gå ind på localhost:4200
+Projektet er nu klar til at blive testet.
+
+**Hvis der fejl kan der være behov for at skrive 'npm install' i terminalen 
+for at installere manglende dependencies.

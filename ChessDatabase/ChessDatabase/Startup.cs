@@ -19,6 +19,7 @@ using ChessDatabase.Interfaces;
 using Microsoft.Extensions.Options;
 using ChessDatabase.Services;
 using System.Web.Http.Cors;
+using ChessDatabase.HubConfig;
 
 namespace ChessDatabase
 {
