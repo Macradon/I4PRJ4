@@ -79,7 +79,7 @@ namespace ChessDatabase.Controllers
         }
 
         [HttpPost("logout")]
-        public ActionResult logout(string Username, string token)
+        public ActionResult Logout(string Username, string token)
         {
             _tokenService.Delete(token);
             User user = _userService.Get(Username);
