@@ -10,7 +10,7 @@ import { tap } from 'rxjs/operators';
 export class LoginService {
 
   
-  uri = 'https://localhost:44355/api/auth';
+  uri = 'https://chessbotapi20200309114357.azurewebsites.net/api/auth';
 
   @Output() isLoggedIn: EventEmitter<any> = new EventEmitter();
   loggedInStatus: boolean;

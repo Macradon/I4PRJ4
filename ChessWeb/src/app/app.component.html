@@ -13,7 +13,7 @@
 </style>
 <div class="toolbar" role="banner">
   <img width="5" >
-  <button mat-button *ngIf="loginStatus === true" [matMenuTriggerFor]="belowMenu">What do you feel like {{this.username}}?</button>
+  <button mat-button *ngIf="loginStatus === true" [matMenuTriggerFor]="belowMenu">Menu</button>
   <mat-menu #belowMenu="matMenu" yPosition="below">  
     <button mat-menu-item> <a routerLink="game" class="nav-link" routerLinkActive="active">
       Start new game
