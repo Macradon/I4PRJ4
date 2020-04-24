@@ -10,7 +10,7 @@ import { SignalRService } from '../signalR/signalR.service';
 })
 export class HighScoresService {
   currentUser: User;
-  uri = 'https://chessbotapi20200309114357.azurewebsites.net/api/highscores';
+  uri = 'https://chessdatabasebackendapi.azurewebsites.net/api/highscores';
   //uri = 'https://localhost:44355/api/highscores';
 
   constructor(private http: HttpClient, private service: LoginService, public signalRService: SignalRService) { }
