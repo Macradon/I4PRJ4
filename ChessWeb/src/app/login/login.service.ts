@@ -11,6 +11,7 @@ export class LoginService {
 
   
   uri = 'https://chessbotapi20200309114357.azurewebsites.net/api/auth';
+  //uri = 'https://localhost:44355/api/auth';
 
   @Output() isLoggedIn: EventEmitter<any> = new EventEmitter();
   loggedInStatus: boolean;
