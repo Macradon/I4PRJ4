@@ -9,6 +9,7 @@ import {MatPaginator} from '@angular/material/paginator';
 })
 export class HighScoresComponent implements OnInit {
   highscores: Highscore[];
+  p: any;
 
   constructor(private service: HighScoresService) { }
 
