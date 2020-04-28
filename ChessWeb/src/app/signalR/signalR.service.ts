@@ -1,47 +1,46 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import * as signalR from "@aspnet/signalr";
-import { Highscore } from '../high-scores/highscore';
- 
+import { Highscore } from "../high-scores/highscore";
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class SignalRService {
   public broadcasted: Highscore;
   public highscore: Highscore;
   public highscores: Highscore[];
- 
-  private hubConnection: signalR.HubConnection
- 
+
+  private hubConnection: signalR.HubConnection;
+
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://chessbotapi20200309114357.azurewebsites.net/chart') 
-      //.withUrl('https://localhost:44355/chart')                                                       
+      .withUrl("https://chessdatabasebackendapi.azurewebsites.net/chart")
       .build();
- 
+
     this.hubConnection
       .start()
-      .then(() => console.log('Connection started'))
-      .catch(err => console.log('Error while starting connection: ' + err))
-  }
+      .then(() => console.log("Connection started"))
+      .catch((err) => console.log("Error while starting connection: " + err));
+  };
 
-
-  public sendHighscore(highscore: Highscore){
-    this.hubConnection.invoke('broadcasthighscore', highscore)
-    .catch(err => console.error(err));
-    console.log(highscore)
+  public sendHighscore(highscore: Highscore) {
+    this.hubConnection
+      .invoke("broadcasthighscore", highscore)
+      .catch((err) => console.error(err));
+    console.log(highscore);
   }
 
   public addBroadcastHighscoreListener = () => {
-    this.hubConnection.on('broadcasthighscore', (data) => {
+    this.hubConnection.on("broadcasthighscore", (data) => {
       this.broadcasted = data;
-      console.log("broadcasted", this.broadcasted)
-    })
-  }
+      console.log("broadcasted", this.broadcasted);
+    });
+  };
 
   public addTransferChartDataListener = () => {
-    this.hubConnection.on('transferhighscores', (data) => {
+    this.hubConnection.on("transferhighscores", (data) => {
       this.highscores = data;
       console.log(data);
     });
-  }
+  };
 }

@@ -6,4 +6,6 @@ export interface BoardTile {
   position: BoardPosition;
   piece: ChessPiece | null;
   isBlack: boolean;
+  isSelected: boolean;
+  isAvailableMove: boolean;
 }

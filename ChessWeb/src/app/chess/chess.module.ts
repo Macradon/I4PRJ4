@@ -3,13 +3,19 @@ import { CommonModule } from "@angular/common";
 import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { ChessRoutingModule } from "./chess-routing.module";
-import { GameComponent } from "./single-player/single-player.component";
+import { SingleplayerComponent } from "./singleplayer/singleplayer.component";
 import { BoardComponent } from "./board/board.component";
 import { BoardTileComponent } from "./board/board-tile/board-tile.component";
+import { MultiplayerComponent } from "./multiplayer/multiplayer.component";
 
 @NgModule({
-  declarations: [GameComponent, BoardComponent, BoardTileComponent],
+  declarations: [
+    SingleplayerComponent,
+    BoardComponent,
+    BoardTileComponent,
+    MultiplayerComponent,
+  ],
   imports: [CommonModule, ChessRoutingModule, FlexLayoutModule],
-  exports: [GameComponent, BoardComponent, BoardTileComponent]
+  exports: [SingleplayerComponent, BoardComponent, BoardTileComponent],
 })
 export class ChessModule {}

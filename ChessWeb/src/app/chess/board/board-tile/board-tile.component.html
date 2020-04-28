@@ -1,8 +1,8 @@
 <div
-  class="tile "
+  class="tile"
   [class.black-back]="tile.isBlack"
-  [class.selected]="selected"
-  [class.movable]="moveable"
+  [class.selected]="tile.isSelected"
+  [class.movable]="tile.isAvailableMove"
   (click)="onSelect()"
   fxLayoutAlign="center start"
 >

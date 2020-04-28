@@ -3,9 +3,6 @@
     <app-board-tile
       *ngFor="let tile of column; index as i"
       [tile]="tile"
-      [possibleMoves]="possibleMoves"
-      [selectedTile]="selectedTile"
-
       (tileClicked)="onTileSelect($event)"
     >
     </app-board-tile>

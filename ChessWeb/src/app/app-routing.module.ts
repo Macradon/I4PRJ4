@@ -6,7 +6,7 @@ import { SignInComponent } from "./login/sign-in/sign-in.component";
 import { RegisterComponent } from "./login/register/register.component";
 import { AuthGuard } from "./login/auth.guard";
 import { ProfileComponent } from "./login/profile/profile.component";
-import { GameComponent } from "./chess/single-player/single-player.component";
+import { SingleplayerComponent } from "./chess/singleplayer/singleplayer.component";
 
 const routes: Routes = [
   { path: "highscores", component: HighScoresComponent },
@@ -14,12 +14,12 @@ const routes: Routes = [
   { path: "login", component: SignInComponent },
   { path: "register", component: RegisterComponent },
   { path: "myprofile", canActivate: [AuthGuard], component: ProfileComponent },
-  { path: "game", canActivate: [AuthGuard], component: GameComponent }
+  { path: "game", canActivate: [AuthGuard], component: SingleplayerComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}
 

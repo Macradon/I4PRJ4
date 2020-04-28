@@ -1,0 +1,9 @@
+<div fxLayout="row">
+  <app-board
+    [board]="game.board"
+    class="board"
+    (tileSelect)="onTileSelect($event)"
+  >
+  </app-board>
+  <div style="color: white;">Turns taken: {{ game.turnsTaken }}</div>
+</div>
