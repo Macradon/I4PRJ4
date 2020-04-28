@@ -15,7 +15,7 @@ export class ErrorMatcher implements ErrorStateMatcher {
 export class PasswordMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
-    return (control.dirty || control.touched || isSubmitted);
+    return (control.value != control.parent.value && (control.dirty || control.touched || isSubmitted ));
   }
 }
 

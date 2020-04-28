@@ -44,6 +44,7 @@ namespace ChessDatabase
                 options.AddPolicy(
                   "CorsPolicy",
                   builder => builder.WithOrigins("https://chessweb-c0b8d.firebaseapp.com")
+                  //builder => builder.WithOrigins("http://localhost:4200")
                   .AllowAnyMethod()
                   .AllowAnyHeader()
                   .AllowCredentials());

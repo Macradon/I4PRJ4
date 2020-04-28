@@ -46,7 +46,7 @@ namespace ChessDatabase.HubConfig
             }
             var highscoreList = new List<Highscore>();
             highscoreList = _highscoreService.GetAll();
-            var scoreList = highscoreList.OrderBy(n => n.numberOfMoves).ToArray().Take<Highscore>(5);
+            var scoreList = highscoreList.OrderByDescending(n => n.Id);
             await Clients.All.SendAsync("transferhighscores", scoreList);
             Console.WriteLine(scoreList);
         }

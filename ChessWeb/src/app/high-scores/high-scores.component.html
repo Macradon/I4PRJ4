@@ -7,20 +7,28 @@
         <thead>
             <tr>
                 <div class="card">
-                    <th scope="col">Player</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Number of moves</th>
+                    <th scope="col"><button class = "sortButton" (click)="sortPlayers()">Player</button></th>
+                    <th scope="col"><button class = "sortButton" (click)="sortTime()">Time</button></th>
+                    <th scope="col"><button class = "sortButton" (click)="sortMoves()">Number of moves</button></th>
                 </div> 
             </tr>
         </thead>           
-        <tbody>
-            <tr *ngFor="let highscore of highscores">
+        <tbody>            
+            <tr *ngFor="let highscore of highscores | paginate: { itemsPerPage: 4, currentPage: p }">
                 <div class = "card">
                     <td>{{ highscore.firstName }} {{ highscore.lastName }}</td>
                     <td>{{ highscore.time }} seconds</td>
                     <td>{{ highscore.numberOfMoves }}</td>
                 </div>
             </tr>
+            <pagination-controls  
+                      (pageChange)="p = $event"
+                      directionLinks="true"
+                      autoHide="true"
+                      responsive="true"
+                      previousLabel="Previous"
+                      nextLabel="Next">
+            </pagination-controls>
         </tbody>
     </table>   
 </div>

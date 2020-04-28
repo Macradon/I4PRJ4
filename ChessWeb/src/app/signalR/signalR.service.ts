@@ -14,7 +14,8 @@ export class SignalRService {
  
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://chessbotapi20200309114357.azurewebsites.net/chart')                            
+      .withUrl('https://chessbotapi20200309114357.azurewebsites.net/chart') 
+      //.withUrl('https://localhost:44355/chart')                                                       
       .build();
  
     this.hubConnection
