@@ -6,7 +6,7 @@ import { SignInComponent } from "./login/sign-in/sign-in.component";
 import { RegisterComponent } from "./login/register/register.component";
 import { AuthGuard } from "./login/auth.guard";
 import { ProfileComponent } from "./login/profile/profile.component";
-import { GameComponent } from "./chess/game/game.component";
+import { GameComponent } from "./chess/single-player/single-player.component";
 
 const routes: Routes = [
   { path: "highscores", component: HighScoresComponent },

@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { ChessRoutingModule } from "./chess-routing.module";
-import { GameComponent } from "./game/game.component";
+import { GameComponent } from "./single-player/single-player.component";
 import { BoardComponent } from "./board/board.component";
 import { BoardTileComponent } from "./board/board-tile/board-tile.component";
 

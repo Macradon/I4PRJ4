@@ -10,12 +10,12 @@ import { HighScoresService } from "src/app/high-scores/high-scores.service";
 import { Router } from "@angular/router";
 import { LoginService } from "src/app/login/login.service";
 import { User } from "src/app/login/user";
-import { ToastService } from "./../../toast/toast.service";
+import { ToastService } from "../../toast/toast.service";
 
 @Component({
-  selector: "app-game",
-  templateUrl: "./game.component.html",
-  styleUrls: ["./game.component.sass"]
+  selector: "app-single-player",
+  templateUrl: "./single-player.component.html",
+  styleUrls: ["./single-player.component.sass"]
 })
 export class GameComponent {
   public board: BoardTile[][] = [];
@@ -28,7 +28,7 @@ export class GameComponent {
   private blackPieces: BoardTile[] = [];
   private ai: ChessAI;
   public turnsTaken = 0;
-  time: number = 0;
+  time = 0;
   interval;
   currentUser: User;
 
@@ -99,7 +99,7 @@ export class GameComponent {
       if (to.piece instanceof King) {
         this.gameOver = true;
         this.youWin = this.playerTurn ? true : false;
-        if (this.youWin == true) {
+        if (this.youWin === true) {
           this.toast.success(
             { message: "Congratulations, you win!" },
             true,
@@ -112,14 +112,13 @@ export class GameComponent {
             10000
           );
         }
-        this.service
-          .createHighScore(
-            this.turnsTaken,
-            this.youWin,
-            this.time,
-            this.currentUser
-          )
-        this.router.navigate(['/highscores']);
+        this.service.createHighScore(
+          this.turnsTaken,
+          this.youWin,
+          this.time,
+          this.currentUser
+        );
+        this.router.navigate(["/highscores"]);
       } else {
         if (to.piece.playerColor === PlayerColor.White) {
           this.whitePieces = this.removePiece(to, this.whitePieces);
