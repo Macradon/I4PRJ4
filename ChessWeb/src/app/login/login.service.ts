@@ -1,7 +1,7 @@
 import { Injectable, Output, EventEmitter } from "@angular/core";
 import { User, RefreshToken } from "./user";
 import { HttpClient } from "@angular/common/http";
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 
 @Injectable({
