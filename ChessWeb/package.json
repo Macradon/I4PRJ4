@@ -17,7 +17,7 @@
   "private": true,
   "dependencies": {
     "@angular-devkit/build-angular": "^0.803.24",
-    "@angular/animations": "~8.2.9",
+    "@angular/animations": "^8.2.14",
     "@angular/cdk": "~8.2.3",
     "@angular/cli": "~8.3.8",
     "@angular/common": "~8.2.9",
@@ -27,7 +27,7 @@
     "@angular/flex-layout": "^8.0.0-beta.27",
     "@angular/forms": "~8.2.9",
     "@angular/material": "^8.2.3",
-    "@angular/platform-browser": "~8.2.9",
+    "@angular/platform-browser": "^8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.9",
     "@angular/router": "~8.2.9",
     "@aspnet/signalr": "^1.1.4",
@@ -37,6 +37,7 @@
     "ng-pagination": "^1.0.1",
     "ng2-charts": "^2.3.0",
     "ngx-pagination": "^5.0.0",
+    "ngx-toastr": "^12.0.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

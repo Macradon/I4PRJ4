@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../login.service';
 import { User } from '../user';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile',
@@ -10,7 +11,7 @@ import { User } from '../user';
 export class ProfileComponent implements OnInit {
   user: User;
 
-  constructor(private service: LoginService) { }
+  constructor(private service: LoginService, private toast: ToastrService) { }
 
   ngOnInit() {  
     console.log(localStorage)
@@ -19,5 +20,9 @@ export class ProfileComponent implements OnInit {
       .subscribe((data:User) => {
         this.user = data;    
     });   
+  }
+
+  click() {
+    this.toast.success("Better luck next time :(");
   }
 }

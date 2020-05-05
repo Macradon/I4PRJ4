@@ -75,7 +75,7 @@ namespace ChessDatabase.Controllers
                 }
                 else return BadRequest();
             }
-            else return NotFound("User is not in the system"); 
+            else return NotFound("User is not registered"); 
         }
 
         [HttpPost("logout")]
