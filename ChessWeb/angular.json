@@ -132,5 +132,8 @@
       }
     }
   },
-  "defaultProject": "ChessWeb"
+  "defaultProject": "ChessWeb",
+  "cli": {
+    "analytics": "42f3011d-c32c-44f0-bdf6-9786f898b4fd"
+  }
 }
