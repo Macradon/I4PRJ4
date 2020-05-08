@@ -62,7 +62,6 @@ namespace ChessDatabase.Controllers
         }
 
 
-        //Not necessary
         [HttpGet("")]
         public ActionResult highscores()
         {
@@ -70,9 +69,7 @@ namespace ChessDatabase.Controllers
             highscoreList = _highscoreService.GetAll();
             var scoreList = highscoreList.OrderByDescending(n => n.Id);
             _hub.Clients.All.SendAsync("transferhighscores", scoreList);
-            return Ok(scoreList);
-
-            
+            return Ok(scoreList);            
         }
 
     }

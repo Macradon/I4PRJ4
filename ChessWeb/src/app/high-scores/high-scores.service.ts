@@ -24,16 +24,6 @@ export class HighScoresService {
         won: youWin,
         numberOfMoves: turnsTaken
       });
-      console.log("sent")
-    
-    // return this.http.post(`${this.uri}/create`,{
-    //   username: currentUser.Username,       
-    //   firstName: currentUser.firstName,
-    //   lastName: currentUser.lastName,
-    //   time: time,
-    //   won: youWin,
-    //   numberOfMoves: turnsTaken
-    // })
   }
 
   getHighscores() {

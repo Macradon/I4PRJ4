@@ -31,7 +31,6 @@ export class BoardTileComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.log("changes");
     if (this.selectedTile) {
       this.selected = this.selectedTile.id === this.tile.id ? true : false;
     } else {

@@ -45,7 +45,6 @@ export class GameComponent {
       .getUser(localStorage.getItem("email"))
       .subscribe((data: User) => {
         this.currentUser = data;
-        console.log(this.currentUser);
       });
 
     for (let i = 0; i < BOARD_SIZE; i++) {
@@ -161,6 +160,5 @@ export class GameComponent {
     this.interval = setInterval(() => {
       this.time++;
     }, 1000);
-    console.log("time", this.time);
   }
 }

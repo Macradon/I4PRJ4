@@ -10,8 +10,8 @@ import { tap } from 'rxjs/operators';
 export class LoginService {
 
   
-  //uri = 'https://chessdatabasebackendapi.azurewebsites.net/api/auth';
-  uri = 'https://localhost:44355/api/auth';
+  uri = 'https://chessdatabasebackendapi.azurewebsites.net/api/auth';
+  //uri = 'https://localhost:44355/api/auth';
 
   @Output() isLoggedIn: EventEmitter<any> = new EventEmitter();
   loggedInStatus: boolean;
@@ -22,7 +22,6 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   login(data: any): Observable<any> {
-    console.log(data)
     return this.http.post(`${this.uri}/login`, data)
       .pipe(
         tap(_ => {
@@ -34,19 +33,7 @@ export class LoginService {
 
   
   logout(Username: String, token: any): Observable<any> {
-    console.log("mail", Username, "token", token)
     return this.http.post(`${this.uri}/logout?Username=${Username}&token=${token}`, Username, token) 
-      // Username: data.Username,
-      // firstName: data.firstName,
-      // lastName: data.lastName,  
-      // password: data.password,   
-      // gamesPlayed: data.gamesPlayed,
-      // gamesWon: data.gamesWon,
-      // bestTime: data.bestTime,
-      // avgMovesNumber: data.avgMovesNumber, 
-      // token: data.token,
-      // Id: data.Id
-    // )
     .pipe(
       tap(_ => {  
         this.isLoggedIn.emit(false);
