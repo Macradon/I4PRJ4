@@ -15,4 +15,5 @@ export class BoardTileComponent {
   public onSelect() {
     this.tileClicked.emit(this.tile);
   }
+
 }

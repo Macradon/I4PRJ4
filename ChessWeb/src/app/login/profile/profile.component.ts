@@ -13,11 +13,11 @@ export class ProfileComponent implements OnInit {
   constructor(private service: LoginService) { }
 
   ngOnInit() {  
-    console.log(localStorage)
     this.service
       .getUser(localStorage.getItem('email'))     
       .subscribe((data:User) => {
         this.user = data;    
     });   
   }
+
 }

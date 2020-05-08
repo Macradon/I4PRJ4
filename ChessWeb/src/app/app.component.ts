@@ -63,13 +63,13 @@ export class AppComponent implements OnInit {
     if(this.currentUser != null) {          
       this.service.logout(this.currentUser.Username, this.currentUser.token.refreshToken.refreshToken)
       .subscribe(res => {
-        console.log(res)        
+        res        
       });      
     }
     else {          
       this.service.logout(this.service.user.Username, this.service.user.token.refreshToken.refreshToken)
       .subscribe(res => {
-        console.log(res)        
+        res       
       });      
     }
     

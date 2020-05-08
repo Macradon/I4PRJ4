@@ -51,7 +51,7 @@ export class SignInComponent implements OnInit {
         this.router.navigate(['']);
       }
     }, (err) => {
-      console.log(err);
+        alert(err.error);
     });
   }
 
