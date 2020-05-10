@@ -73,7 +73,7 @@ namespace ChessDatabase.Controllers
                     _userService.Update(usertest.Username, user);
                     return Ok(user);
                 }
-                else return BadRequest();
+                else return BadRequest("Wrong Password");
             }
             else return NotFound("User is not registered"); 
         }
