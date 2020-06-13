@@ -8,8 +8,8 @@ import { tap } from "rxjs/operators";
   providedIn: "root",
 })
 export class LoginService {
-  //uri = 'https://chessdatabasebackendapi.azurewebsites.net/api/auth';
-  uri = "https://localhost:44355/api/auth";
+  uri = "https://chessdatabasebackendapi.azurewebsites.net/api/auth";
+  //uri = "https://localhost:44355/api/auth";
 
   @Output() isLoggedIn: EventEmitter<any> = new EventEmitter();
   loggedInStatus: boolean;
