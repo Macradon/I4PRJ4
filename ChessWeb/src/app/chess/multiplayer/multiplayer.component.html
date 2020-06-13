@@ -1,9 +1,22 @@
-<div fxLayout="row">
-  <app-board
-    [board]="game.board"
-    class="board"
-    (tileSelect)="onTileSelect($event)"
-  >
-  </app-board>
-  <div style="color: white;">Turns taken: {{ game.turnsTaken }}</div>
+<div *ngIf="gameStarted; else LookingForGame">
+  <div fxLayout="row">
+    <app-board
+      [board]="game.board"
+      class="board"
+      (tileSelect)="onTileSelect($event)"
+    >
+    </app-board>
+    <div fxLayout="coloumn">
+      <div style="color: white;">
+        You are: {{ playerColor === pcWhite ? "White" : "Black" }}
+      </div>
+      <div style="color: white;">Turns taken: {{ game.turnsTaken }}</div>
+    </div>
+  </div>
 </div>
+
+<ng-template #LookingForGame>
+  <div>
+    Looking for a game
+  </div>
+</ng-template>

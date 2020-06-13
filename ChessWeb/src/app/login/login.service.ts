@@ -8,9 +8,8 @@ import { tap } from "rxjs/operators";
   providedIn: "root",
 })
 export class LoginService {
-  
-  uri = 'https://chessdatabasebackendapi.azurewebsites.net/api/auth';
-  //uri = 'https://localhost:44355/api/auth';
+  //uri = 'https://chessdatabasebackendapi.azurewebsites.net/api/auth';
+  uri = "https://localhost:44355/api/auth";
 
   @Output() isLoggedIn: EventEmitter<any> = new EventEmitter();
   loggedInStatus: boolean;
@@ -21,25 +20,28 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   login(data: any): Observable<any> {
-
-    return this.http.post(`${this.uri}/login`, data)
-      .pipe(
-        tap(_ => {
-          this.isLoggedIn.emit(true);
-          this.loggedInStatus = true;
-        })
-      );     
+    return this.http.post(`${this.uri}/login`, data).pipe(
+      tap((_) => {
+        this.isLoggedIn.emit(true);
+        this.loggedInStatus = true;
+      })
+    );
   }
 
   logout(Username: String, token: any): Observable<any> {
-    return this.http.post(`${this.uri}/logout?Username=${Username}&token=${token}`, Username, token) 
-    .pipe(
-      tap(_ => {  
-        this.isLoggedIn.emit(false);
-        this.loggedInStatus = false;      
-      })
-    ); 
-  }   
+    return this.http
+      .post(
+        `${this.uri}/logout?Username=${Username}&token=${token}`,
+        Username,
+        token
+      )
+      .pipe(
+        tap((_) => {
+          this.isLoggedIn.emit(false);
+          this.loggedInStatus = false;
+        })
+      );
+  }
 
   register(data: any): Observable<any> {
     return this.http.post(`${this.uri}/register`, {

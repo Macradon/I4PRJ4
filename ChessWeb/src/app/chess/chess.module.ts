@@ -16,6 +16,11 @@ import { MultiplayerComponent } from "./multiplayer/multiplayer.component";
     MultiplayerComponent,
   ],
   imports: [CommonModule, ChessRoutingModule, FlexLayoutModule],
-  exports: [SingleplayerComponent, BoardComponent, BoardTileComponent],
+  exports: [
+    SingleplayerComponent,
+    MultiplayerComponent,
+    BoardComponent,
+    BoardTileComponent,
+  ],
 })
 export class ChessModule {}

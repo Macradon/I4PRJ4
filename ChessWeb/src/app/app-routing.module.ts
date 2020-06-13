@@ -7,6 +7,7 @@ import { RegisterComponent } from "./login/register/register.component";
 import { AuthGuard } from "./login/auth.guard";
 import { ProfileComponent } from "./login/profile/profile.component";
 import { SingleplayerComponent } from "./chess/singleplayer/singleplayer.component";
+import { MultiplayerComponent } from "./chess/multiplayer/multiplayer.component";
 
 const routes: Routes = [
   { path: "highscores", component: HighScoresComponent },
@@ -14,7 +15,16 @@ const routes: Routes = [
   { path: "login", component: SignInComponent },
   { path: "register", component: RegisterComponent },
   { path: "myprofile", canActivate: [AuthGuard], component: ProfileComponent },
-  { path: "game", canActivate: [AuthGuard], component: SingleplayerComponent },
+  {
+    path: "singleplayer",
+    canActivate: [AuthGuard],
+    component: SingleplayerComponent,
+  },
+  {
+    path: "multiplayer",
+    canActivate: [AuthGuard],
+    component: MultiplayerComponent,
+  },
 ];
 
 @NgModule({

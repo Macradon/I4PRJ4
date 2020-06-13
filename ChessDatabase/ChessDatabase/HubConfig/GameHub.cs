@@ -21,35 +21,29 @@ namespace ChessDatabase.HubConfig
 
             if (_playerArray[0] != null)
             {
-                if (_playerArray[1] != null)
-                {
-                    Array.Clear(_playerArray, 0, _playerArray.Length);
-                    _gameNumber ++;
-                    _playerArray[0] = ConnectionId;
-                }
-                else
-                {
-                    _playerArray[1] = ConnectionId;
-                }
-                _playerArray[0] = ConnectionId;
-            }
-            _gameRoom = _playerArray[0] + _gameNumber.ToString();
+                _gameRoom = _playerArray[0] + _gameNumber.ToString();
 
-            await Clients.Caller.SendAsync("QueuedForGame", _gameRoom);
-            await Groups.AddToGroupAsync(ConnectionId, _gameRoom);
+                await Clients.Caller.SendAsync("QueuedForGame", _gameRoom);
+                await Groups.AddToGroupAsync(ConnectionId, _gameRoom);
 
-            if (_playerArray[1] == ConnectionId)
-            {
                 ChessColorModel player1 = new ChessColorModel() { color = ChessColorModel.ChessColor.WHITE };
                 ChessColorModel player2 = new ChessColorModel() { color = ChessColorModel.ChessColor.BLACK };
-                await Clients.User(_playerArray[0]).SendAsync("BeginGame", player1 );
-                await Clients.User(_playerArray[1]).SendAsync("BeginGame", player2 );
+                await Clients.User(_playerArray[0]).SendAsync("BeginGame", player1);
+                await Clients.User(ConnectionId).SendAsync("BeginGame", player2);
+                Array.Clear(_playerArray, 0, _playerArray.Length);
+                _gameNumber++;
+            } else
+            {
+                _playerArray[0] = ConnectionId;
+                _gameRoom = _playerArray[0] + _gameNumber.ToString();
+                await Clients.Caller.SendAsync("QueuedForGame", _gameRoom);
+                await Groups.AddToGroupAsync(ConnectionId, _gameRoom);
             }
         }
 
         public async Task SendMove(string gameRoom, string move)
         {
-            await Clients.Group(gameRoom).SendAsync(move);
+            await Clients.Group(gameRoom).SendAsync("Move", move);
         }
 
         public override async Task OnConnectedAsync()

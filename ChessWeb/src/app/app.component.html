@@ -1,39 +1,68 @@
 <style>
-   :host {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Lato, Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  :host {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Lato, Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
     font-size: 18px;
     color: #333;
     box-sizing: border-box;
   }
-  
+
   /* Responsive Styles */
   @media screen and (max-width: 767px) {
-    
   }
 </style>
 <div class="toolbar" role="banner">
-  <img width="5" >
-  <button mat-button *ngIf="loginStatus === true" [matMenuTriggerFor]="belowMenu">Menu</button>
-  <mat-menu #belowMenu="matMenu" yPosition="below">  
-    <button mat-menu-item> <a routerLink="game" class="nav-link" routerLinkActive="active">
-      Start new game
-    </a></button>
-      <button mat-menu-item> <a routerLink="highscores" class="nav-link" routerLinkActive="active">
+  <img width="5" />
+  <button
+    mat-button
+    *ngIf="loginStatus === true"
+    [matMenuTriggerFor]="belowMenu"
+  >
+    Menu
+  </button>
+  <mat-menu #belowMenu="matMenu" yPosition="below">
+    <button mat-menu-item>
+      <a routerLink="¨singleplayer" class="nav-link" routerLinkActive="active">
+        Singleplayer Game
+      </a>
+    </button>
+    <button mat-menu-item>
+      <a routerLink="multiplayer" class="nav-link" routerLinkActive="active">
+        Multiplayer Game
+      </a>
+    </button>
+    <button mat-menu-item>
+      <a routerLink="highscores" class="nav-link" routerLinkActive="active">
         See high scores
-    </a></button>  
-    <button mat-menu-item> <a routerLink="" class="nav-link" routerLinkActive="active">
-      Main menu
-    </a></button>  
-    <button mat-menu-item> <a routerLink="myprofile" class="nav-link" routerLinkActive="active">
+      </a>
+    </button>
+    <button mat-menu-item>
+      <a routerLink="" class="nav-link" routerLinkActive="active">
+        Main menu
+      </a>
+    </button>
+    <button mat-menu-item>
+      <a routerLink="myprofile" class="nav-link" routerLinkActive="active">
         My profile
-    </a></button>  
+      </a>
+    </button>
   </mat-menu>
   <div class="spacer"></div>
-  <button *ngIf="loginStatus === true" mat-button (click)="logout()">Sign out</button>
-  <button *ngIf="loginStatus === false"><a routerLink="login" class="nav-link" style = "color: white;" routerLinkActive="active">Sign in</a></button>
+  <button *ngIf="loginStatus === true" mat-button (click)="logout()">
+    Sign out
+  </button>
+  <button *ngIf="loginStatus === false">
+    <a
+      routerLink="login"
+      class="nav-link"
+      style="color: white;"
+      routerLinkActive="active"
+      >Sign in</a
+    >
+  </button>
 </div>
 
 <div class="body-container">
   <router-outlet></router-outlet>
 </div>
-
