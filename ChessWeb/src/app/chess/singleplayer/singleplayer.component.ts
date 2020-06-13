@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { BoardTile } from "../models/board-tile";
 import { PlayerColor } from "../models/chess-piece";
 import { HighScoresService } from "src/app/high-scores/high-scores.service";
@@ -7,17 +7,19 @@ import { LoginService } from "src/app/login/login.service";
 import { User } from "src/app/login/user";
 import { ToastService } from "../../toast/toast.service";
 import { ChessGame } from "../chess-game";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-singleplayer",
   templateUrl: "./singleplayer.component.html",
   styleUrls: ["./singleplayer.component.sass"],
 })
-export class SingleplayerComponent {
+export class SingleplayerComponent implements OnInit, OnDestroy {
   public game: ChessGame = new ChessGame(false);
   public selectedTile: BoardTile = null;
   public availableMoves: BoardTile[] = [];
   public currentUser: User;
+  private subscription: Subscription;
 
   constructor(
     private router: Router,
@@ -31,9 +33,15 @@ export class SingleplayerComponent {
         this.currentUser = data;
       });
   }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+  ngOnInit(): void {
+    this.subscription = this.game.gameOver.subscribe(() => this.endOfGame());
+  }
 
   public onTileSelect(tile: BoardTile) {
-    if (this.game.playerTurn === PlayerColor.White && !this.game.gameOver) {
+    if (this.game.playerTurn === PlayerColor.White) {
       if (!this.selectedTile) {
         if (tile.piece.playerColor === PlayerColor.White) {
           this.selectTile(tile);
@@ -50,16 +58,12 @@ export class SingleplayerComponent {
             this.game.movePiece(this.selectedTile, tile);
             this.unselectTile();
 
-            if (!this.game.gameOver) {
+            if (!this.game.winner) {
               this.game.takeAITurn();
             }
           }
         }
       }
-    }
-
-    if (this.game.gameOver) {
-      this.endOfGame();
     }
   }
 

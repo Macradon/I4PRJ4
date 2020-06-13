@@ -9,14 +9,14 @@ import { Move } from "../chess/models/move";
 export class GameSignalRService {
   private gameConnection: signalR.HubConnection;
   public connection = new EventEmitter<string>();
-  public gameRoomReceived = new EventEmitter<string>();
-  public gameBegin = new EventEmitter<ColorDTO>();
+  public queued = new EventEmitter<ColorDTO>();
+  public gameBegin = new EventEmitter<string>();
   public moveReceived = new EventEmitter<Move>();
 
   public startConnection = () => {
     this.gameConnection = new signalR.HubConnectionBuilder()
-      .withUrl("https://chessdatabasebackendapi.azurewebsites.net/games")
-      //.withUrl("https://localhost:44355/games")
+      //.withUrl("https://chessdatabasebackendapi.azurewebsites.net/games")
+      .withUrl("https://localhost:44355/games")
       .build();
 
     this.gameConnection
@@ -45,7 +45,7 @@ export class GameSignalRService {
       this.connection.emit(data);
     });
     this.gameConnection.on("QueuedForGame", (data) => {
-      this.gameRoomReceived.emit(data);
+      this.queued.emit(data);
     });
     this.gameConnection.on("BeginGame", (data) => {
       this.gameBegin.emit(data);

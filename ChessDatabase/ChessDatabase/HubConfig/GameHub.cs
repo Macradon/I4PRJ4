@@ -10,7 +10,7 @@ namespace ChessDatabase.HubConfig
 {
     public class GameHub : Hub
     {
-        private string[] _playerArray = new string[2];
+        private static string[] _playerArray = new string[2];
         private int _gameNumber = 0;
 
         public async Task findOpenGameRoom(string ConnectionId)
@@ -23,20 +23,18 @@ namespace ChessDatabase.HubConfig
             {
                 _gameRoom = _playerArray[0] + _gameNumber.ToString();
 
-                await Clients.Caller.SendAsync("QueuedForGame", _gameRoom);
+                await Clients.Caller.SendAsync("QueuedForGame", new ChessColorModel() { color = ChessColorModel.ChessColor.BLACK });
                 await Groups.AddToGroupAsync(ConnectionId, _gameRoom);
 
-                ChessColorModel player1 = new ChessColorModel() { color = ChessColorModel.ChessColor.WHITE };
-                ChessColorModel player2 = new ChessColorModel() { color = ChessColorModel.ChessColor.BLACK };
-                await Clients.User(_playerArray[0]).SendAsync("BeginGame", player1);
-                await Clients.User(ConnectionId).SendAsync("BeginGame", player2);
+
+                await Clients.Group(_gameRoom).SendAsync("BeginGame", _gameRoom);
                 Array.Clear(_playerArray, 0, _playerArray.Length);
                 _gameNumber++;
             } else
             {
                 _playerArray[0] = ConnectionId;
                 _gameRoom = _playerArray[0] + _gameNumber.ToString();
-                await Clients.Caller.SendAsync("QueuedForGame", _gameRoom);
+                await Clients.Caller.SendAsync("QueuedForGame", new ChessColorModel() { color = ChessColorModel.ChessColor.WHITE });
                 await Groups.AddToGroupAsync(ConnectionId, _gameRoom);
             }
         }

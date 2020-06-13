@@ -44,28 +44,37 @@ export class MultiplayerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.push(
+      this.game.gameOver.subscribe((winner) => {
+        this.endOfGame();
+        console.log("GAME OVER");
+      })
+    );
+
+    this.subscriptions.push(
       this.signalRService.connection.subscribe((connectionId) => {
         this.signalRService.findOpenGameRoom(connectionId);
         console.log(`ConnectionId received ${connectionId}`);
       })
     );
     this.subscriptions.push(
-      this.signalRService.gameRoomReceived.subscribe((gameRoom) => {
+      this.signalRService.gameBegin.subscribe((gameRoom) => {
         this.gameRoom = gameRoom;
-        console.log(`Game room received ${gameRoom}`);
-      })
-    );
-    this.subscriptions.push(
-      this.signalRService.gameBegin.subscribe((dto: ColorDTO) => {
-        this.playerColor = dto.color;
         this.gameStarted = true;
-        console.log(`Game starting ${dto}`);
+        console.log(`Game start room received ${gameRoom}`);
       })
     );
     this.subscriptions.push(
-      this.signalRService.moveReceived.subscribe((move: Move) =>
-        this.opponentsMove(move)
-      )
+      this.signalRService.queued.subscribe((dto: ColorDTO) => {
+        this.playerColor = dto.color;
+        console.log(`Color received ${dto}`);
+      })
+    );
+    this.subscriptions.push(
+      this.signalRService.moveReceived.subscribe((move: Move) => {
+        console.log(`Move received`);
+        console.log(move);
+        this.game.movePiece(move.from, move.to);
+      })
     );
 
     this.signalRService.startConnection();
@@ -75,7 +84,7 @@ export class MultiplayerComponent implements OnInit, OnDestroy {
   }
 
   public onTileSelect(tile: BoardTile) {
-    if (this.game.playerTurn === this.playerColor && !this.game.gameOver) {
+    if (this.game.playerTurn === this.playerColor) {
       if (!this.selectedTile) {
         if (tile.piece.playerColor === this.playerColor) {
           this.selectTile(tile);
@@ -89,7 +98,6 @@ export class MultiplayerComponent implements OnInit, OnDestroy {
           );
 
           if (validMove.length > 0) {
-            this.game.movePiece(this.selectedTile, tile);
             this.signalRService.sendMove(this.gameRoom, {
               from: this.selectedTile,
               to: tile,
@@ -98,10 +106,6 @@ export class MultiplayerComponent implements OnInit, OnDestroy {
           }
         }
       }
-    }
-
-    if (this.game.gameOver) {
-      this.endOfGame();
     }
   }
 
@@ -124,13 +128,6 @@ export class MultiplayerComponent implements OnInit, OnDestroy {
     this.availableMoves = [];
   }
 
-  private opponentsMove(move: Move) {
-    this.game.movePiece(move.from, move.to);
-
-    if (this.game.gameOver) {
-      this.endOfGame();
-    }
-  }
   private endOfGame(): void {
     if (this.game.winner === PlayerColor.White) {
       this.toast.success({ message: "Congratulations, you win!" }, true, 10000);
