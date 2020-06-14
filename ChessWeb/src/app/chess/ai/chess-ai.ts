@@ -1,6 +1,6 @@
 import { BoardTile } from "../models/board-tile";
-import { AIMove } from "../models/ai-move";
+import { Move } from "../models/move";
 
 export interface ChessAI {
-  getMove(pieces: BoardTile[], board: BoardTile[][]): AIMove;
+  getMove(pieces: BoardTile[], board: BoardTile[][]): Move;
 }

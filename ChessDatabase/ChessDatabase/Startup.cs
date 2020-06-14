@@ -105,6 +105,7 @@ namespace ChessDatabase
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<ChartHub>("/chart");
+                endpoints.MapHub<GameHub>("/games");
             });
         }
     }

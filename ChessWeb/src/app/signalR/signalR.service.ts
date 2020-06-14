@@ -14,9 +14,8 @@ export class SignalRService {
 
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-
-      .withUrl('https://chessdatabasebackendapi.azurewebsites.net/chart') 
-      //.withUrl('https://localhost:44355/chart')    
+      .withUrl("https://chessdatabasebackendapi.azurewebsites.net/chart")
+      //.withUrl("https://localhost:44355/chart")
       .build();
 
     this.hubConnection
@@ -25,18 +24,17 @@ export class SignalRService {
       .catch((err) => console.log("Error while starting connection: " + err));
   };
 
-
-
-  public sendHighscore(highscore: Highscore){
-    this.hubConnection.invoke('broadcasthighscore', highscore)
-    .catch(err => console.error(err));
+  public sendHighscore(highscore: Highscore) {
+    this.hubConnection
+      .invoke("broadcasthighscore", highscore)
+      .catch((err) => console.error(err));
   }
 
   public addBroadcastHighscoreListener = () => {
     this.hubConnection.on("broadcasthighscore", (data) => {
       this.broadcasted = data;
-    })
-  }
+    });
+  };
 
   public addTransferChartDataListener = () => {
     this.hubConnection.on("transferhighscores", (data) => {

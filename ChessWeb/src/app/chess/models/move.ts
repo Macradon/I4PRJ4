@@ -1,6 +1,6 @@
 import { BoardTile } from "./board-tile";
 
-export interface AIMove {
+export interface Move {
   from: BoardTile;
   to: BoardTile;
 }

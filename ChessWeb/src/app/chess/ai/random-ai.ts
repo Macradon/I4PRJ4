@@ -1,10 +1,10 @@
 import { ChessAI } from "./chess-ai";
 import { BoardTile } from "../models/board-tile";
-import { AIMove } from "../models/ai-move";
+import { Move } from "../models/move";
 
 export class RandomAI implements ChessAI {
-  getMove(pieces: BoardTile[], board: BoardTile[][]): AIMove {
-    let move: AIMove = null;
+  getMove(pieces: BoardTile[], board: BoardTile[][]): Move {
+    let move: Move = null;
     let work = pieces;
     let moveFound = false;
 
@@ -22,7 +22,7 @@ export class RandomAI implements ChessAI {
         move = { from: randomTile, to: randomMove };
         moveFound = true;
       } else {
-        work = work.filter(tile => tile.id !== randomTile.id);
+        work = work.filter((tile) => tile.id !== randomTile.id);
       }
     }
     console.log(move);

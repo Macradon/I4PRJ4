@@ -5,10 +5,11 @@ import { PlayerColor } from "./models/chess-piece";
 import { RandomAI } from "./ai/random-ai";
 import { Pawn } from "./models/pieces/pawn";
 import { King } from "./models/pieces/king";
+import { EventEmitter } from "@angular/core";
 
 export class ChessGame {
   public board: BoardTile[][] = [];
-  public gameOver = false;
+  public gameOver = new EventEmitter<void>();
   public winner: PlayerColor = null;
   public playerTurn: PlayerColor = PlayerColor.White;
   public whitePieces: BoardTile[] = [];
@@ -37,20 +38,23 @@ export class ChessGame {
   }
 
   public movePiece(from: BoardTile, to: BoardTile): void {
-    if (from.piece.playerColor === this.playerTurn) {
-      if (from.piece instanceof Pawn) {
-        from.piece.firstMove = false;
+    const fromPiece = this.board[from.position.x][from.position.y].piece;
+    const toPiece = this.board[to.position.x][to.position.y].piece;
+
+    if (fromPiece.playerColor === this.playerTurn) {
+      if (fromPiece instanceof Pawn) {
+        fromPiece.firstMove = false;
       }
 
-      if (to.piece) {
-        if (to.piece instanceof King) {
-          this.gameOver = true;
+      if (toPiece) {
+        if (toPiece instanceof King) {
           this.winner =
             this.playerTurn === PlayerColor.White
               ? PlayerColor.White
               : PlayerColor.Black;
+          this.gameOver.emit();
         } else {
-          if (to.piece.playerColor === PlayerColor.White) {
+          if (toPiece.playerColor === PlayerColor.White) {
             this.whitePieces = this.removePiece(to, this.whitePieces);
           } else {
             this.blackPieces = this.removePiece(to, this.blackPieces);
@@ -58,8 +62,7 @@ export class ChessGame {
         }
       }
 
-      this.board[to.position.x][to.position.y].piece = from.piece;
-
+      this.board[to.position.x][to.position.y].piece = fromPiece;
       this.board[from.position.x][from.position.y].piece = null;
 
       if (this.playerTurn === PlayerColor.White) {

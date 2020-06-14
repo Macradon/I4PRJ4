@@ -10,8 +10,8 @@ import { SignalRService } from "../signalR/signalR.service";
 })
 export class HighScoresService {
   currentUser: User;
-  uri = 'https://chessdatabasebackendapi.azurewebsites.net/api/highscores';
-  //uri = 'https://localhost:44355/api/highscores';
+  uri = "https://chessdatabasebackendapi.azurewebsites.net/api/highscores";
+  //uri = "https://localhost:44355/api/highscores";
 
   constructor(
     private http: HttpClient,
@@ -19,16 +19,20 @@ export class HighScoresService {
     public signalRService: SignalRService
   ) {}
 
-  createHighScore(turnsTaken: Number, youWin: Boolean, time: Number, currentUser: any) {      
-      this.signalRService.sendHighscore({
-        username: currentUser.Username,       
-        firstName: currentUser.firstName,
-        lastName: currentUser.lastName,
-        time: time,
-        won: youWin,
-        numberOfMoves: turnsTaken
-      });
-
+  createHighScore(
+    turnsTaken: Number,
+    youWin: Boolean,
+    time: Number,
+    currentUser: any
+  ) {
+    this.signalRService.sendHighscore({
+      username: currentUser.Username,
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      time: time,
+      won: youWin,
+      numberOfMoves: turnsTaken,
+    });
   }
 
   getHighscores() {
